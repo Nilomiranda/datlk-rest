@@ -4,6 +4,10 @@
     "packages": [
       "packages/client",
       "packages/server"
-    ]
+    ],
+    "nohoist": ["**/typeorm/**", "**/typeorm"]
+  },
+  "scripts": {
+    "start:server": "yarn workspace server start:dev"
   }
 }
