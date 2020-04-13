@@ -16,6 +16,9 @@ __decorate([
 __decorate([
     typeorm_1.Column({ type: 'varchar', nullable: false })
 ], User.prototype, "email", void 0);
+__decorate([
+    typeorm_1.Column({ type: 'varchar', nullable: false })
+], User.prototype, "password", void 0);
 User = __decorate([
     typeorm_1.Entity()
 ], User);

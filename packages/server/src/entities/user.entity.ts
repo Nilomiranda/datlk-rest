@@ -8,4 +8,7 @@ export class User extends Base<User> {
 
   @Column({ type: 'varchar', nullable: false })
   email: string;
+
+  @Column({ type: 'varchar', nullable: false })
+  password: string;
 }

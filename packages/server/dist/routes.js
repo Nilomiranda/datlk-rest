@@ -6,9 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const user_controller_1 = __importDefault(require("./controllers/user.controller"));
 const router = express_1.default.Router();
+router.post('/user', user_controller_1.default.createNewUser);
 router.get('/', user_controller_1.default.getUsers);
-router.get('/test', (req, res) => {
-    res.send('hello from test route');
-});
 exports.default = router;
 //# sourceMappingURL=routes.js.map
