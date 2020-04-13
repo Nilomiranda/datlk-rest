@@ -19,6 +19,10 @@ class UserController {
       return res.status(400).json({ message: 'A name must be informed', error: 'MISSING_NAME' });
     }
 
+    if (password.length < 8) {
+      return res.status(400).json({ message: 'Password must contain at least 8 characters', error: 'SHORT_PASSWORD' });
+    }
+
     // email must be unique
     const user = await userRepo.findOne({ where: { email } });
 
@@ -30,6 +34,12 @@ class UserController {
 
     try {
       const createdUser = await userRepo.save(new User({ email, password: hashedPassword, name }));
+      /**
+       * we delete password prop here to avoid
+       * this field to be exposed in the request response
+       * In entity definition, { select: false } only
+       * works when you're directly querying for the information
+       */
       delete createdUser.password;
       return res.status(200).json(createdUser);
     } catch (err) {
@@ -39,9 +49,7 @@ class UserController {
 
   async getUsers(req: any, res: any) {
     const userRepo = getRepository(User);
-
     const users = await userRepo.find();
-    console.log('users -> ', users);
     res.json(users);
   }
 }

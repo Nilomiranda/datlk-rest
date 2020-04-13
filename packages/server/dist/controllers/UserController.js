@@ -33,6 +33,9 @@ class UserController {
             if (!name) {
                 return res.status(400).json({ message: 'A name must be informed', error: 'MISSING_NAME' });
             }
+            if (password.length < 8) {
+                return res.status(400).json({ message: 'Password must contain at least 8 characters', error: 'SHORT_PASSWORD' });
+            }
             // email must be unique
             const user = yield userRepo.findOne({ where: { email } });
             if (user) {
@@ -64,4 +67,4 @@ class UserController {
     }
 }
 exports.default = new UserController();
-//# sourceMappingURL=user.controller.js.map
+//# sourceMappingURL=UserController.js.map

@@ -8,23 +8,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const base_entity_1 = require("./base.entity");
-const session_entity_1 = require("./session.entity");
-let User = class User extends base_entity_1.Base {
+const user_entity_1 = require("./user.entity");
+var SessionStatus;
+(function (SessionStatus) {
+    SessionStatus["VALID"] = "VALID";
+    SessionStatus["EXPIRED"] = "EXPIRED";
+})(SessionStatus = exports.SessionStatus || (exports.SessionStatus = {}));
+let Session = class Session extends base_entity_1.Base {
 };
 __decorate([
-    typeorm_1.Column({ type: 'varchar', nullable: false })
-], User.prototype, "name", void 0);
+    typeorm_1.Column({ type: 'enum', nullable: false, default: SessionStatus.VALID, enum: SessionStatus })
+], Session.prototype, "status", void 0);
 __decorate([
     typeorm_1.Column({ type: 'varchar', nullable: false })
-], User.prototype, "email", void 0);
+], Session.prototype, "token", void 0);
 __decorate([
-    typeorm_1.Column({ type: 'varchar', nullable: false, select: false })
-], User.prototype, "password", void 0);
-__decorate([
-    typeorm_1.OneToMany(type => session_entity_1.Session, session => session.user)
-], User.prototype, "sessions", void 0);
-User = __decorate([
+    typeorm_1.ManyToOne(type => user_entity_1.User, user => user.sessions)
+], Session.prototype, "user", void 0);
+Session = __decorate([
     typeorm_1.Entity()
-], User);
-exports.User = User;
-//# sourceMappingURL=user.entity.js.map
+], Session);
+exports.Session = Session;
+//# sourceMappingURL=session.entity.js.map
