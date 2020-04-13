@@ -4,7 +4,7 @@ import {User} from "./user.entity";
 
 export enum SessionStatus {
   VALID = 'VALID',
-  EXPIRED = 'EXPIRED',
+  INVALID = 'INVALID',
 }
 
 @Entity()

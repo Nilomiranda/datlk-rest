@@ -45,17 +45,35 @@ class SessionController {
             if (!isPasswordCorrect) {
                 return res.status(401).json({ message: 'Incorrect credentials', error: 'WRONG_CREDENTIALS' });
             }
+            delete user.password;
             /**
              * if all data has been informed and everything is correct
              * proceed creating the session
              */
-            console.log('user -> ', user);
             // generating jwt
-            const token = jwt.sign({ data: user }, auth_1.default.appSecret, { expiresIn: '1 day' });
+            const token = jwt.sign({ user }, auth_1.default.appSecret, { expiresIn: '1 day' });
             try {
                 const createdSession = yield sessionRepo.save(new session_entity_1.Session({ user, status: session_entity_1.SessionStatus.VALID, token }));
-                delete user.password;
                 return res.status(200).json(createdSession);
+            }
+            catch (err) {
+                return res.status(500).json({ message: 'Internal server error', error: err.message });
+            }
+        });
+    }
+    destroySession(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sessionRepo = typeorm_1.getRepository(session_entity_1.Session);
+            // const { email } = req.body;
+            const { sessionId } = req;
+            const session = yield sessionRepo.findOne({ where: { id: sessionId } });
+            if (!session) {
+                return res.status(404).json({ message: 'Session not found', error: 'SESSION_NOT_FOUND' });
+            }
+            // session.status = SessionStatus.INVALID;
+            try {
+                yield sessionRepo.delete(session.id);
+                return res.status(200).json({ message: 'Success' });
             }
             catch (err) {
                 return res.status(500).json({ message: 'Internal server error', error: err.message });

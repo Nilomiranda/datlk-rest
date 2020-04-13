@@ -12,7 +12,7 @@ const user_entity_1 = require("./user.entity");
 var SessionStatus;
 (function (SessionStatus) {
     SessionStatus["VALID"] = "VALID";
-    SessionStatus["EXPIRED"] = "EXPIRED";
+    SessionStatus["INVALID"] = "INVALID";
 })(SessionStatus = exports.SessionStatus || (exports.SessionStatus = {}));
 let Session = class Session extends base_entity_1.Base {
 };
