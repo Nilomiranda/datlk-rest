@@ -21,5 +21,7 @@ router.delete('/session', SessionController.destroySession);
 router.get('/publication', PublicationController.getPublications);
 router.get('/publication/:id', PublicationController.getOnePublication);
 router.post('/publication', PublicationController.createPublication);
+router.patch('/publication/:id', PublicationController.updatePublication);
+router.delete('/publication/:id', PublicationController.deletePublication);
 
 export default router;

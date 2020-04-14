@@ -18,5 +18,7 @@ router.delete('/session', SessionController_1.default.destroySession);
 router.get('/publication', PublicationController_1.default.getPublications);
 router.get('/publication/:id', PublicationController_1.default.getOnePublication);
 router.post('/publication', PublicationController_1.default.createPublication);
+router.patch('/publication/:id', PublicationController_1.default.updatePublication);
+router.delete('/publication/:id', PublicationController_1.default.deletePublication);
 exports.default = router;
 //# sourceMappingURL=routes.js.map

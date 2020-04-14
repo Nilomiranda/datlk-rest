@@ -57,6 +57,49 @@ class PublicationController {
             }
         });
     }
+    updatePublication(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const pubRepo = typeorm_1.getRepository(publication_entity_1.Publication);
+            const { content } = req.body;
+            const pubId = req.params.id;
+            /**
+             * As content is the only thing possible to edit
+             * we just make sure a content is passed in body payload
+             */
+            if (!content) {
+                return res.status(400).json({ message: 'Content is missing', error: 'EMPTY_CONTENT' });
+            }
+            try {
+                const publication = yield pubRepo.findOne({ where: { id: pubId }, relations: ['user'] });
+                if (!publication) {
+                    return res.status(404).json({ message: 'Publication not found', error: 'PUBLICATION_NOT_FOUND' });
+                }
+                publication.content = content;
+                const updatedPublication = yield pubRepo.save(publication);
+                return res.status(200).json(updatedPublication);
+            }
+            catch (err) {
+                return res.status(500).json({ message: 'Internal server error', error: err.message });
+            }
+        });
+    }
+    deletePublication(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const pubRepo = typeorm_1.getRepository(publication_entity_1.Publication);
+            const pubId = req.params.id;
+            try {
+                const publication = yield pubRepo.findOne({ where: { id: pubId }, relations: ['user'] });
+                if (!publication) {
+                    return res.status(404).json({ message: 'Publication not found', error: 'PUBLICATION_NOT_FOUND' });
+                }
+                yield pubRepo.delete(publication.id);
+                return res.status(200).json({ message: 'Success' });
+            }
+            catch (err) {
+                return res.status(500).json({ message: 'Internal server error', error: err.message });
+            }
+        });
+    }
 }
 exports.default = new PublicationController();
 //# sourceMappingURL=PublicationController.js.map

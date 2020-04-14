@@ -11,11 +11,12 @@ and React, Typescript, styled-component on the front-end.
 - [x] Middleware to validate session
 - [x] User can sign out (destroy session)
 
-- [ ] User can create a new post
-- [ ] User can edit his post
-- [ ] User can delete his post
+- [x] User can create a new post
+- [x] User can edit his post
+- [x] User can delete his post
 
-- [ ] User can list posts 
+- [x] User can read one post
+- [x] User can list posts 
 
 - [ ] User can comment in other posts
 - [ ] User can list comments from a post
