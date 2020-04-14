@@ -12,7 +12,8 @@ async function validateSession(req, res, next) {
   }
 
   const [tokenType, token] = authorization.split(' ');
-
+  console.log(tokenType);
+  console.log(token);
   // Only Bearer token is accepted
   if (!tokenType && tokenType !== 'Bearer') {
     return res.status(401).json({ message: 'User must be logged in', error: 'UNAUTHORIZED' });

@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const base_entity_1 = require("./base.entity");
 const session_entity_1 = require("./session.entity");
+const publication_entity_1 = require("./publication.entity");
 let User = class User extends base_entity_1.Base {
 };
 __decorate([
@@ -23,6 +24,9 @@ __decorate([
 __decorate([
     typeorm_1.OneToMany(type => session_entity_1.Session, session => session.user)
 ], User.prototype, "sessions", void 0);
+__decorate([
+    typeorm_1.OneToMany(type => publication_entity_1.Publication, publication => publication.user)
+], User.prototype, "publications", void 0);
 User = __decorate([
     typeorm_1.Entity()
 ], User);
