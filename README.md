@@ -18,8 +18,10 @@ and React, Typescript, styled-component on the front-end.
 - [x] User can read one post
 - [x] User can list posts 
 
-- [ ] User can comment in other posts
-- [ ] User can list comments from a post
+- [X] User can comment in other posts
+- [X] User can list comments from a post
+- [x] User can edit comment
+- [x] User can delete comment
 
 ### (FRONT-END)
 

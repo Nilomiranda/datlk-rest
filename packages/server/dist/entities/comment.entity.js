@@ -9,20 +9,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const base_entity_1 = require("./base.entity");
 const typeorm_1 = require("typeorm");
 const user_entity_1 = require("./user.entity");
-const comment_entity_1 = require("./comment.entity");
-let Publication = class Publication extends base_entity_1.Base {
+const publication_entity_1 = require("./publication.entity");
+let Comment = class Comment extends base_entity_1.Base {
 };
 __decorate([
-    typeorm_1.Column({ type: 'varchar', length: '400', nullable: false })
-], Publication.prototype, "content", void 0);
+    typeorm_1.Column({ type: 'varchar', length: 400, nullable: false })
+], Comment.prototype, "content", void 0);
 __decorate([
-    typeorm_1.ManyToOne(type => user_entity_1.User, user => user.publications, { nullable: false })
-], Publication.prototype, "user", void 0);
+    typeorm_1.ManyToOne(type => user_entity_1.User, { nullable: false })
+], Comment.prototype, "user", void 0);
 __decorate([
-    typeorm_1.OneToMany(type => comment_entity_1.Comment, comment => comment.publication)
-], Publication.prototype, "comments", void 0);
-Publication = __decorate([
+    typeorm_1.ManyToOne(type => publication_entity_1.Publication, publication => publication.comments, { nullable: false })
+], Comment.prototype, "publication", void 0);
+Comment = __decorate([
     typeorm_1.Entity()
-], Publication);
-exports.Publication = Publication;
-//# sourceMappingURL=publication.entity.js.map
+], Comment);
+exports.Comment = Comment;
+//# sourceMappingURL=comment.entity.js.map

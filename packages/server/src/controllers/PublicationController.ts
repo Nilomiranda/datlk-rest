@@ -26,7 +26,7 @@ class PublicationController {
     const pubRepo = getRepository(Publication);
 
     try {
-      const publications = await pubRepo.find({ relations: ['user'] });
+      const publications = await pubRepo.find({ relations: ['user', 'comments', 'comments.user'] });
       return res.status(200).json(publications);
     } catch (err) {
       return res.status(500).json({ message: 'Internal server error', error: err.message });
@@ -38,7 +38,7 @@ class PublicationController {
     const pubId: number = req.params.id;
 
     try {
-      const publication = await pubRepo.findOne({ where: { id: pubId }, relations: ['user'] });
+      const publication = await pubRepo.findOne({ where: { id: pubId }, relations: ['user', 'comments', 'comments.user'] });
       if (!publication) {
         return res.status(404).json({ message: 'Publication not found', error: 'PUBLICATION_NOT_FOUND' });
       }
