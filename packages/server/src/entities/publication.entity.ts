@@ -1,6 +1,7 @@
 import {Base} from "./base.entity";
-import {Column, Entity, ManyToOne} from "typeorm";
+import {Column, Entity, ManyToOne, OneToMany} from "typeorm";
 import {User} from "./user.entity";
+import { Comment } from "./comment.entity";
 
 @Entity()
 export class Publication extends Base<Publication> {
@@ -9,4 +10,7 @@ export class Publication extends Base<Publication> {
 
   @ManyToOne(type => User, user => user.publications, { nullable: false })
   user: User;
+
+  @OneToMany(type => Comment, comment => comment.publication)
+  comments: Comment[];
 }
