@@ -1,5 +1,6 @@
 import {getRepository} from "typeorm";
 import {Publication} from "../entities/publication.entity";
+import {User} from "../entities/user.entity";
 
 class PublicationController {
   async createPublication(req: any, res: any) {
@@ -51,6 +52,7 @@ class PublicationController {
   async updatePublication(req: any, res: any) {
     const pubRepo = getRepository(Publication);
     const { content } = req.body;
+    const { user }: { user: User } = req;
     const pubId: number = req.params.id;
 
     /**
@@ -68,6 +70,10 @@ class PublicationController {
         return res.status(404).json({ message: 'Publication not found', error: 'PUBLICATION_NOT_FOUND' });
       }
 
+      if (publication.user.id !== user.id) {
+        return res.status(403).json({ message: 'User do not own publication', error: 'CANNOT_DELETE_OTHERS_POST' });
+      }
+
       publication.content = content;
 
       const updatedPublication = await pubRepo.save(publication);
@@ -81,12 +87,17 @@ class PublicationController {
   async deletePublication(req: any, res: any) {
     const pubRepo = getRepository(Publication);
     const pubId: number = req.params.id;
+    const { user }: { user: User } = req;
 
     try {
       const publication = await pubRepo.findOne({ where: { id: pubId }, relations: ['user'] });
 
       if (!publication) {
         return res.status(404).json({ message: 'Publication not found', error: 'PUBLICATION_NOT_FOUND' });
+      }
+
+      if (publication.user.id !== user.id) {
+        return res.status(403).json({ message: 'User do not own publication', error: 'CANNOT_DELETE_OTHERS_POST' });
       }
 
       await pubRepo.delete(publication.id);

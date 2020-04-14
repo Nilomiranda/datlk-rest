@@ -61,6 +61,7 @@ class PublicationController {
         return __awaiter(this, void 0, void 0, function* () {
             const pubRepo = typeorm_1.getRepository(publication_entity_1.Publication);
             const { content } = req.body;
+            const { user } = req;
             const pubId = req.params.id;
             /**
              * As content is the only thing possible to edit
@@ -73,6 +74,9 @@ class PublicationController {
                 const publication = yield pubRepo.findOne({ where: { id: pubId }, relations: ['user'] });
                 if (!publication) {
                     return res.status(404).json({ message: 'Publication not found', error: 'PUBLICATION_NOT_FOUND' });
+                }
+                if (publication.user.id !== user.id) {
+                    return res.status(403).json({ message: 'User do not own publication', error: 'CANNOT_DELETE_OTHERS_POST' });
                 }
                 publication.content = content;
                 const updatedPublication = yield pubRepo.save(publication);
@@ -87,10 +91,14 @@ class PublicationController {
         return __awaiter(this, void 0, void 0, function* () {
             const pubRepo = typeorm_1.getRepository(publication_entity_1.Publication);
             const pubId = req.params.id;
+            const { user } = req;
             try {
                 const publication = yield pubRepo.findOne({ where: { id: pubId }, relations: ['user'] });
                 if (!publication) {
                     return res.status(404).json({ message: 'Publication not found', error: 'PUBLICATION_NOT_FOUND' });
+                }
+                if (publication.user.id !== user.id) {
+                    return res.status(403).json({ message: 'User do not own publication', error: 'CANNOT_DELETE_OTHERS_POST' });
                 }
                 yield pubRepo.delete(publication.id);
                 return res.status(200).json({ message: 'Success' });
