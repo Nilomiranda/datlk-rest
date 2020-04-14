@@ -2,7 +2,7 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "packages/client",
+      "packages/web",
       "packages/server"
     ],
     "nohoist": ["**/typeorm/**", "**/typeorm"]
