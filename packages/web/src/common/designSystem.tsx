@@ -37,7 +37,7 @@ export const PageContainer = styled.div`
   height: 100%;
 `
 
-export const DarkButton = styled.button`
+export const DarkButton = styled.button<{ disabled?: boolean }>`
   background: ${colors.green};
   color: ${colors.white};
   font-weight: bolder;
@@ -45,6 +45,7 @@ export const DarkButton = styled.button`
   border-radius: 4pt;
   padding: 10px 20px;
   border: none;
+  opacity: ${({ disabled }) => disabled ? '0.3' : '1'};
 `
 
 export const DarkLinkText = styled(Link)`

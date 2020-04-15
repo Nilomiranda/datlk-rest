@@ -7,8 +7,11 @@ import { useHistory } from 'react-router-dom';
 const MainContainer = styled.nav`
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   width: 100%;
   padding: 20px 40px;
+  background: ${colors.white};
+  box-shadow: 0 1px 0px ${colors.gray};
   
   button {
     font-size: ${text.medium};
@@ -21,6 +24,13 @@ const MainContainer = styled.nav`
       text-decoration: underline;
       cursor: pointer;
     }
+  }
+  
+  h1 {
+    color: ${colors.black};
+    font-size: ${text.extraLarge};
+    margin-left: 38%;
+    margin: 0 auto;
   }
 `
 
@@ -44,6 +54,7 @@ function Header() {
   return (
     <MainContainer>
       <button onClick={() => signOut()}>Sign out</button>
+      <h1>Publications</h1>
     </MainContainer>
   )
 }
