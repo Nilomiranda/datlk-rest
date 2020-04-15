@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "tsc-watch -p tsconfig.json --onSuccess \"node .\"",
+    "start": "tsc-watch -p tsconfig.json --onSuccess \"node .\"",
     "start:dev": "tsc-watch -p tsconfig.json --onSuccess \"node .\"",
     "start:prod": "node dist/index.js"
   },
