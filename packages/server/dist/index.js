@@ -22,6 +22,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const bodyParser = __importStar(require("body-parser"));
+const cors_1 = __importDefault(require("cors"));
 // local imports
 const routes_1 = __importDefault(require("./routes"));
 const typeorm_1 = require("typeorm");
@@ -29,8 +30,13 @@ dotenv_1.default.config();
 const port = process.env.PORT;
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
+        const corsOptions = {
+            origin: 'http://localhost:3000',
+            optionsSuccessStatus: 200,
+        };
         yield typeorm_1.createConnection();
         const app = express_1.default();
+        app.use(cors_1.default(corsOptions));
         app.use(bodyParser.json());
         app.use('/', routes_1.default);
         app.listen(port, () => {
