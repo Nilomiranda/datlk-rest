@@ -9,6 +9,6 @@
   },
   "scripts": {
     "start:server": "yarn workspace server start:prod",
-    "build": "yarn && yarn workspace web build"
+    "build": "rm -rf node_modules && rm -rf packages/server/dist && yarn && yarn workspace web build"
   }
 }
