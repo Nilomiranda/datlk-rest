@@ -69,10 +69,10 @@ function SignIn() {
 
       try {
         const res = await api().post('session', { email, password });
-        const { token } = res.data;
+        const { data } = res;
 
-        if (token) {
-          saveTokenInStorage(token);
+        if (data) {
+          saveInfoInStorage(data);
           history.push('/home');
         }
       } catch (err) {
@@ -82,8 +82,10 @@ function SignIn() {
     }
   }
 
-  function saveTokenInStorage(token: string) {
+  function saveInfoInStorage(data: any) {
+    const { token, user } = data;
     localStorage.setItem('DTALK_TOKEN', token);
+    localStorage.setItem('DTALK_USER', JSON.stringify(user));
   }
 
   return (

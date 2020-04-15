@@ -11,7 +11,8 @@ const MainContainer = styled.div`
   background: ${colors.white};
   border-radius: 10px;
   padding: 10px 20px;
-  width: 40%;
+  min-width: 70%;
+  max-width: 100%;
   min-height: 300px;
   
   textarea {
@@ -34,12 +35,14 @@ const MainContainer = styled.div`
 
 export interface NewPublicationProps {
   onChange: (text: string) => void;
+  handleSubmit: () => void;
+  submitting: boolean;
 }
 
 function NewPublication(props: NewPublicationProps) {
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
-  const { onChange } = props;
+  const { onChange, handleSubmit, submitting } = props;
 
   function handleValueChange(event: any) {
     const { target: { value } } = event;
@@ -54,7 +57,11 @@ function NewPublication(props: NewPublicationProps) {
   return (
     <MainContainer>
       <textarea onChange={event => handleValueChange(event)} />
-      <DarkButton className="submit-btn" disabled={buttonDisabled}>Publish</DarkButton>
+      <DarkButton className="submit-btn" disabled={buttonDisabled} onClick={() => handleSubmit()}>
+        {
+          submitting ? 'Posting': 'Publish'
+        }
+      </DarkButton>
     </MainContainer>
   )
 }

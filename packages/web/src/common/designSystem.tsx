@@ -34,7 +34,7 @@ export const PageContainer = styled.div`
   //justify-content: center;
   align-items: center;
   background: ${colors.lighterGreen};
-  height: 100%;
+  min-height: 100vh;
 `
 
 export const DarkButton = styled.button<{ disabled?: boolean }>`
@@ -47,6 +47,25 @@ export const DarkButton = styled.button<{ disabled?: boolean }>`
   border: none;
   opacity: ${({ disabled }) => disabled ? '0.3' : '1'};
 `
+
+export const DangerButton = styled.button`
+  background: transparent;
+  color: ${colors.red};
+  font-weight: bolder;
+  font-size: ${text.extraSmall};
+  border: none;
+  box-shadow: none;
+`;
+
+export const ActionButton = styled.button<{ disabled?: boolean }>`
+  background: transparent;
+  color: ${colors.green};
+  font-weight: bolder;
+  font-size: ${text.extraSmall};
+  border: none;
+  box-shadow: none;
+  opacity: ${({ disabled }) => disabled ? '0.3' : '1'};
+`;
 
 export const DarkLinkText = styled(Link)`
   color: ${colors.green};
