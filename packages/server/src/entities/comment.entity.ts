@@ -11,6 +11,6 @@ export class Comment extends Base<Comment> {
   @ManyToOne(type => User, { nullable: false })
   user: User;
 
-  @ManyToOne(type => Publication, publication => publication.comments, { nullable: false })
+  @ManyToOne(type => Publication, publication => publication.comments, { nullable: false, onDelete: 'CASCADE' })
   publication: Publication;
 }

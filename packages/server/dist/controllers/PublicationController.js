@@ -33,7 +33,7 @@ class PublicationController {
         return __awaiter(this, void 0, void 0, function* () {
             const pubRepo = typeorm_1.getRepository(publication_entity_1.Publication);
             try {
-                const publications = yield pubRepo.find({ relations: ['user', 'comments', 'comments.user'] });
+                const publications = yield pubRepo.find({ relations: ['user', 'comments', 'comments.user'], order: { id: 'DESC' } });
                 return res.status(200).json(publications);
             }
             catch (err) {

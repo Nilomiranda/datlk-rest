@@ -19,7 +19,7 @@ __decorate([
     typeorm_1.ManyToOne(type => user_entity_1.User, { nullable: false })
 ], Comment.prototype, "user", void 0);
 __decorate([
-    typeorm_1.ManyToOne(type => publication_entity_1.Publication, publication => publication.comments, { nullable: false })
+    typeorm_1.ManyToOne(type => publication_entity_1.Publication, publication => publication.comments, { nullable: false, onDelete: 'CASCADE' })
 ], Comment.prototype, "publication", void 0);
 Comment = __decorate([
     typeorm_1.Entity()
