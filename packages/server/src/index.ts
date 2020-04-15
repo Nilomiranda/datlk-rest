@@ -18,15 +18,6 @@ async function startServer() {
     optionsSuccessStatus: 200,
   }
 
-  // const client = new pg.Client({
-  //   user: 'nmoaqpzaxswehq',
-  //   password: '3bc2eb552311f3cbd6d1e76b160f5db7a99abe8bb4db0cf42a534966e68981e3',
-  //   database: 'd5f91t1h2c6i0d',
-  //   port: 5432,
-  // })
-  //
-  // client.connect();
-
   await createConnection();
 
   const app = express();

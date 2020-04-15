@@ -7,6 +7,5 @@
   "database": "d5f91t1h2c6i0d",
   "entities": ["dist/entities/*.js"],
   "logging": true,
-  "synchronize": true,
-  "ssl": true
+  "synchronize": true
 }
