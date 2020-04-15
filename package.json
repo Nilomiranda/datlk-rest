@@ -8,6 +8,7 @@
     "nohoist": ["**/typeorm/**", "**/typeorm"]
   },
   "scripts": {
-    "start:server": "yarn workspace server start:dev"
+    "start:server": "yarn workspace server start:prod",
+    "build": "yarn && yarn workspace web build"
   }
 }

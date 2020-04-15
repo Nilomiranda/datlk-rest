@@ -21,7 +21,7 @@ async function startServer() {
   const app = express();
   app.use(cors(corsOptions));
   app.use(bodyParser.json());
-  app.use('/', router);
+  app.use('/api', router);
 
   app.listen(port, () => {
     console.log(`Server is running like 🔥🔥🔥 on port ${port}`);

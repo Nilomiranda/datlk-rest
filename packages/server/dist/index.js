@@ -38,7 +38,7 @@ function startServer() {
         const app = express_1.default();
         app.use(cors_1.default(corsOptions));
         app.use(bodyParser.json());
-        app.use('/', routes_1.default);
+        app.use('/api', routes_1.default);
         app.listen(port, () => {
             console.log(`Server is running like 🔥🔥🔥 on port ${port}`);
         });
