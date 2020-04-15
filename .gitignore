@@ -1,2 +1,5 @@
 node_modules/
 packages/server/.env
+.now
+now.json
+packages/server/ormconfig.prod.json
