@@ -17,7 +17,6 @@ function Routes() {
         path='/home'
         render={({ location }) => {
             const token = localStorage.getItem('DTALK_TOKEN');
-            console.log('token in initialization -> ', token);
             if (token) {
               return <Home />
             } else {

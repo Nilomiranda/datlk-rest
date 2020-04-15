@@ -68,7 +68,7 @@ function SignIn() {
       setErrorMsg('');
 
       try {
-        const res = await api.post('session', { email, password });
+        const res = await api().post('session', { email, password });
         const { token } = res.data;
 
         if (token) {

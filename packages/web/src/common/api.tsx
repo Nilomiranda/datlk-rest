@@ -1,9 +1,37 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3333/';
+// const api = axios.create({
+//   baseURL: API_URL,
+// });
+//
+// (function determineAuthHeader() {
+//   const token = localStorage.getItem('DTALK_TOKEN');
+//   console.log('token for header -> ', token);
+//
+//   if (token) {
+//     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+//   } else {
+//     return null;
+//   }
+// })();
 
-const api = axios.create({
-  baseURL: API_URL,
-});
+function api(tokenRequired = false) {
+  const API_URL = 'http://localhost:3333/';
+
+  const api = axios.create({
+    baseURL: API_URL,
+  });
+
+  if (tokenRequired) {
+    const token = localStorage.getItem('DTALK_TOKEN');
+    console.log('token for header -> ', token);
+
+    if (token) {
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+  }
+
+  return api;
+}
 
 export default api;

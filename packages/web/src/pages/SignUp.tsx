@@ -116,7 +116,7 @@ function SignUp() {
   }
 
   async function createNewAccount() {
-    await api.post('user', { email, password, name });
+    await api().post('user', { email, password, name });
   }
 
   return (

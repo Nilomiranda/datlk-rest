@@ -28,6 +28,15 @@ export const text = {
 }
 
 // components
+export const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  //justify-content: center;
+  align-items: center;
+  background: ${colors.lighterGreen};
+  height: 100%;
+`
+
 export const DarkButton = styled.button`
   background: ${colors.green};
   color: ${colors.white};
