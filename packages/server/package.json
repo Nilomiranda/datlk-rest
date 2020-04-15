@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "npx tsc -p tsconfig.json && node ./dist/index.js",
+    "start": "npx tsc && node ./dist/index.js",
     "start:dev": "tsc-watch -p tsconfig.json --onSuccess \"node .\"",
     "start:prod": "node dist/index.js"
   },
