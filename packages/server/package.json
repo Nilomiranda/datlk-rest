@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "preinstall": "rm -rm node_modules",
     "tsc": "npm install tsc && tsc",
     "start": "node ./dist/index.js",
     "prestart": "npm run tsc",
