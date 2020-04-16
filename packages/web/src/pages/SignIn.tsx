@@ -10,13 +10,14 @@ const MainContainer = styled.div`
   justify-content: center;
   align-items: center;
   background: ${colors.lighterGreen};
-  height: 100%;
+  height: 100vh;
 `
 
 const LoginFormContainer = styled.div`
   background: ${colors.white};
   padding: 40px;
-  width: 50%;
+  min-width: 75%;
+  max-width: 90%;
   border-radius: 10px;
   display: flex;
   flex-direction: column;

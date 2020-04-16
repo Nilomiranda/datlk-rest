@@ -3,19 +3,21 @@ import styled from "styled-components";
 import Input from "../components/Input";
 import {colors, DarkButton, DarkLinkText, text} from "../common/designSystem";
 import api from '../common/api';
+import {Text, Button, Flex, Box} from 'rebass/styled-components';
 
 const MainContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   background: ${colors.lighterGreen};
-  height: 100%;
+  height: 100vh;
 `
 
 const LoginFormContainer = styled.div`
   background: ${colors.white};
   padding: 40px;
-  width: 50%;
+  min-width: 75%;
+  max-width: 90%;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -50,6 +52,9 @@ function SignUp() {
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [emailInvalid, setEmailInvalid] = useState(false);
   const [nameInvalid, setNameInvalid] = useState(false);
+  const [buttonLabel, setButtonLabel] = useState('Create account');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
   function validatePassword() {
     if (password.length < 8) {
@@ -116,12 +121,23 @@ function SignUp() {
   }
 
   async function createNewAccount() {
-    await api().post('user', { email, password, name });
+    try {
+      setButtonLabel('Creating account...');
+      await api().post('user', { email, password, name });
+      setSuccess(true);
+    } catch (err) {
+      const { response } = err;
+      console.error('Error when creating account -> ', response);
+      setError(response.data.message);
+      setSuccess(false);
+    } finally {
+      setButtonLabel('Create account');
+    }
   }
 
   return (
     <MainContainer>
-      <LoginFormContainer>
+      <Flex flexDirection="column" bg="white" p={40} width={['95%', '85%', '85%', '65%']} sx={{ borderRadius: 'large' }}>
         <h1>Create an account</h1>
         <form>
           <Input
@@ -159,9 +175,26 @@ function SignUp() {
 
           <DarkLinkText to="/sign-in">Already have an account? Sign in</DarkLinkText>
 
-          <DarkButton className="submit-btn" onClick={(event) => handleSubmit(event)}>Create account</DarkButton>
+            <Box width={1/4} ml="auto">
+              <Button variant="primary" onClick={(event) => handleSubmit(event)} width={1}>{buttonLabel}</Button>
+            </Box>
+
+          {
+            error && !success ?
+              <Text fontSize={[ 1, 1, 1 ]} fontWeight='medium' color='red' mt={10} textAlign="center">{error}</Text> :
+              null
+          }
+
+          {
+            success ?
+              <Text fontSize={[ 1, 1, 1 ]} fontWeight='medium' color='green' mt={10} textAlign="center">
+                Account successfully created!
+              </Text> :
+              null
+          }
+
         </form>
-      </LoginFormContainer>
+      </Flex>
     </MainContainer>
   )
 }
