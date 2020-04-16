@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "tsc": "tsc",
+    "tsc": "npm install tsc && tsc -p tsconfig.json",
     "start": "node ./dist/index.js",
     "prestart": "npm run tsc",
     "start:dev": "tsc-watch -p tsconfig.json --onSuccess \"node .\"",

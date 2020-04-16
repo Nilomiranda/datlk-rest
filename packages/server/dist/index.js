@@ -34,6 +34,7 @@ function startServer() {
             origin: 'http://localhost:3000',
             optionsSuccessStatus: 200,
         };
+        // testing
         yield typeorm_1.createConnection();
         const app = express_1.default();
         app.use(cors_1.default(corsOptions));
