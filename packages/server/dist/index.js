@@ -31,13 +31,13 @@ const port = process.env.PORT;
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         const corsOptions = {
-            origin: 'http://localhost:3000',
+            origin: 'https://dtalk-rest.now.sh',
             optionsSuccessStatus: 200,
         };
-        // testing
+        // te
         yield typeorm_1.createConnection();
         const app = express_1.default();
-        app.use(cors_1.default(corsOptions));
+        app.use(cors_1.default());
         app.use(bodyParser.json());
         app.use('/api', routes_1.default);
         app.listen(port, () => {
