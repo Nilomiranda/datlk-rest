@@ -9,7 +9,7 @@
   "scripts": {
     "tsc": "tsc",
     "start": "node ./dist/index.js",
-    "prestart": "yarn tsc",
+    "prestart": "tsc",
     "start:dev": "tsc-watch -p tsconfig.json --onSuccess \"node .\"",
     "start:prod": "node dist/index.js"
   },
