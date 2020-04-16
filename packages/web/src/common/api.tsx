@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 function api(tokenRequired = false) {
-  const API_URL = 'http://localhost:3333/api';
+  const API_URL = 'https://dtalk-api.herokuapp.com/api';
 
   const api = axios.create({
     baseURL: API_URL,
