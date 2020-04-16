@@ -7,7 +7,9 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "tsc -p tsconfig.json && node ./dist/index.js",
+    "tsc": "tsc",
+    "start": "node ./dist/index.js",
+    "prestart": "yarn tsc",
     "start:dev": "tsc-watch -p tsconfig.json --onSuccess \"node .\"",
     "start:prod": "node dist/index.js"
   },
