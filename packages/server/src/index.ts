@@ -14,7 +14,7 @@ const port = process.env.PORT;
 
 async function startServer() {
   const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: 'https://dtalk-rest.now.sh',
     optionsSuccessStatus: 200,
   }
 
