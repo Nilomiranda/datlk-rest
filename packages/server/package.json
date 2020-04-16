@@ -7,10 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "preinstall": "rm -rf node_modules",
-    "tsc": "npm install typescript && tsc",
     "start": "node ./dist/index.js",
-    "prestart": "npm run tsc",
     "start:dev": "tsc-watch -p tsconfig.json --onSuccess \"node .\"",
     "start:prod": "node dist/index.js"
   },
