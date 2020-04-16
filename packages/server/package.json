@@ -9,7 +9,7 @@
   "scripts": {
     "tsc": "tsc",
     "start": "node ./dist/index.js",
-    "prestart": "tsc",
+    "prestart": "npm run tsc",
     "start:dev": "tsc-watch -p tsconfig.json --onSuccess \"node .\"",
     "start:prod": "node dist/index.js"
   },
