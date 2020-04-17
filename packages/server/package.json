@@ -9,7 +9,8 @@
   "scripts": {
     "start": "rm -rf node_modules && npm install && node ./dist/index.js",
     "start:dev": "tsc-watch -p tsconfig.json --onSuccess \"node .\"",
-    "start:prod": "node dist/index.js"
+    "start:prod": "node dist/index.js",
+    "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
     "bcrypt": "^4.0.1",

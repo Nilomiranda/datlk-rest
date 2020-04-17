@@ -5,6 +5,7 @@ import NewPublication from "../components/NewPublication";
 import PublicationsList from "../components/PublicationsList";
 import api from '../common/api';
 import {User} from "../interfaces/interfaces";
+import { Flex } from 'rebass/styled-components';
 
 function Home() {
   const [newPostContent, setNewPostContent] = useState('');
@@ -59,17 +60,17 @@ function Home() {
   }
 
   return (
-    <PageContainer>
-      <Header />
+   <Flex flexDirection="column" alignItems="center" bg="lighterGreen">
+     <Header />
 
-      <NewPublication onChange={handleContentChange} handleSubmit={submitNewPost} submitting={submitting}/>
+     <NewPublication onChange={handleContentChange} handleSubmit={submitNewPost} submitting={submitting}/>
 
-      {
-        loading ?
-          <span>Loading posts...</span> :
-          <PublicationsList loadedPosts={posts} user={user}/>
-      }
-    </PageContainer>
+     {
+       loading ?
+         <span>Loading posts...</span> :
+         <PublicationsList loadedPosts={posts} user={user}/>
+     }
+   </Flex>
   )
 }
 

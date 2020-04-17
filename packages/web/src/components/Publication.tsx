@@ -4,6 +4,7 @@ import {ActionButton, colors, DangerButton, DarkButton, text} from "../common/de
 import {Post, User} from "../interfaces/interfaces";
 import { useHistory } from 'react-router-dom';
 import api from '../common/api';
+import {Box, Button, Flex, Text} from 'rebass/styled-components';
 
 const MainContainer = styled.div`
   display: flex;
@@ -11,7 +12,7 @@ const MainContainer = styled.div`
   align-items: flex-start;
   margin: 20px 0;
   background: ${colors.white};
-  width: 80%;
+  //width: 80%;
   padding: 10px 15px;
   border-radius: 10px;
   cursor: pointer;
@@ -114,35 +115,43 @@ function Publication ({ publication, user, handleDelete }: { publication: Post, 
   }
 
   return (
-    <MainContainer>
-      <div className="publication-header">
-        <div className="title-wrapper">
+    <Flex
+      flexDirection="column"
+      bg="white"
+      my={30}
+      p={30}
+      sx={{ borderRadius: 'large' }}
+    >
+      <Flex justifyContent="space-between">
+        <Box width={1/4}>
           <span>{publication.user.name}</span>
-          <ActionButton onClick={() => history.push(`/publication/${publication.id}`)}>See more</ActionButton>
-        </div>
+          <Button variant="primaryTransparent" fontSize={14} p={0} mx={10} onClick={() => history.push(`/publication/${publication.id}`)}>See more</Button>
+        </Box>
         {
           user.id === publication.user.id ?
             (
-              <div className="buttons-container">
-              <DangerButton onClick={() => handleDeleteButtonClick()}>Delete post</DangerButton> { '/' }
-              <ActionButton onClick={(event) => handleEditButtonClick(event)}>Edit post</ActionButton>
-              </div>
+              <Box width={1/4}>
+                <Button variant="dangerTransparent" fontSize={14} p={0} mx={1} onClick={() => handleDeleteButtonClick()}>Delete post</Button> { '/' }
+                <Button variant="primaryTransparent" fontSize={14} p={0} mx={1} onClick={(event) => handleEditButtonClick(event)}>Edit post</Button>
+              </Box>
             ) :
             null
         }
-      </div>
+      </Flex>
       {
         isEditing ?
           <div className="pub-edit-box">
             <textarea value={content} onChange={event => handlePublicationContentChange(event.target.value)}/>
             <ActionButton disabled={content.length === 0} onClick={() => handleChangesSave()}>Save changes</ActionButton>
           </div> :
-          <p>{content}</p>
+          <Text color="black" fontSize={16} my={30}>{content}</Text>
       }
-      <Toolbar>
-        <DarkButton onClick={event => handleCommentButtonClick(event)}>Comentar</DarkButton>
-      </Toolbar>
-    </MainContainer>
+      <Flex justifyContent="flex-end" width={1}>
+        <Box width={1/4}>
+          <Button variant="primary" width={1} onClick={event => handleCommentButtonClick(event)}>Comment</Button>
+        </Box>
+      </Flex>
+    </Flex>
   )
 }
 

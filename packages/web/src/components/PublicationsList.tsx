@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Publication from "./Publication";
 import {Post, User} from "../interfaces/interfaces";
+import { Flex } from "rebass/styled-components";
 
 const MainContainer = styled.div`
   display: flex;
@@ -24,13 +25,13 @@ function PublicationsList({ loadedPosts, user }: { loadedPosts: Post[], user: Us
   }
 
   return (
-    <MainContainer>
+    <Flex flexDirection="column" alignItems="stretch" width={['95%', '85%', '70%']}>
       {
         posts ?
           posts.map((post: Post) => (<Publication publication={post} key={post.id} user={user} handleDelete={handlePublicationDelete}/>)) :
           <span>No posts to show...</span>
       }
-    </MainContainer>
+    </Flex>
   )
 }
 

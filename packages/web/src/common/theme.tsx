@@ -43,7 +43,7 @@ export default {
     large: 12,
   },
   shadows: {
-    small: '0 0 4px rgba(0, 0, 0, .125)',
+    small: '0 0 4px #F00',
     large: '0 0 24px rgba(0, 0, 0, .125)'
   },
   variants: {
@@ -58,5 +58,13 @@ export default {
       color: '#ffffff',
       bg: '#57a99a',
     },
+    primaryTransparent: {
+      color: 'green',
+      bg: 'transparent'
+    },
+    dangerTransparent: {
+      color: 'red',
+      bg: 'transparent'
+    }
   },
 }

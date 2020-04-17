@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@rebass/forms": "^4.0.6",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -44,6 +45,7 @@
     "@types/axios": "^0.14.0",
     "@types/react-router-dom": "^5.1.4",
     "@types/rebass": "^4.0.5",
+    "@types/rebass__forms": "^4.0.1",
     "@types/styled-components": "^5.1.0",
     "styled-components": "^5.1.0"
   }

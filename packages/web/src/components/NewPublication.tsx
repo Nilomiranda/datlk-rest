@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import {colors, DarkButton, text} from "../common/designSystem";
+import {Box, Button, Flex} from 'rebass/styled-components';
+import { Textarea } from '@rebass/forms';
 
 const MainContainer = styled.div`
   display: flex;
@@ -55,14 +57,31 @@ function NewPublication(props: NewPublicationProps) {
   }
 
   return (
-    <MainContainer>
-      <textarea onChange={event => handleValueChange(event)} />
-      <DarkButton className="submit-btn" disabled={buttonDisabled} onClick={() => handleSubmit()}>
-        {
-          submitting ? 'Posting': 'Publish'
-        }
-      </DarkButton>
-    </MainContainer>
+    <Flex
+      flexDirection="column"
+      bg="white"
+      p={40}
+      my={20}
+      alignItems="stretch"
+      width={['95%', '85%', '70%']}
+      sx={{ borderRadius: 'large' }}
+    >
+      {/*<textarea onChange={event => handleValueChange(event)} />*/}
+      <Textarea
+        onChange={event => handleValueChange(event)}
+        name="Comment"
+        height={200}
+        color="green"
+        sx={{ outline: 'transparent', borderWidth: 1, }}
+      />
+      <Box width={1/4} my={30} ml="auto">
+        <Button disabled={buttonDisabled} variant="primary" onClick={() => handleSubmit()} width={1}>
+          {
+            submitting ? 'Posting': 'Publish'
+          }
+        </Button>
+      </Box>
+    </Flex>
   )
 }
 
