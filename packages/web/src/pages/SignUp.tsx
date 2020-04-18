@@ -4,6 +4,7 @@ import Input from "../components/Input";
 import {colors, DarkButton, DarkLinkText, text} from "../common/designSystem";
 import api from '../common/api';
 import {Text, Button, Flex, Box} from 'rebass/styled-components';
+import { useHistory } from 'react-router-dom';
 
 const MainContainer = styled.div`
   display: flex;
@@ -43,6 +44,7 @@ const LoginFormContainer = styled.div`
 `
 
 function SignUp() {
+  const history = useHistory();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -124,6 +126,7 @@ function SignUp() {
       setButtonLabel('Creating account...');
       await api().post('user', { email, password, name });
       setSuccess(true);
+      history.push('/sign-in', { accountCreated: true, authInfo: { email, password } });
     } catch (err) {
       const { response } = err;
       console.error('Error when creating account -> ', response);

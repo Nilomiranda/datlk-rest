@@ -17,7 +17,6 @@ function PublicationsList({ loadedPosts, user }: { loadedPosts: Post[], user: Us
   const [posts, setPosts] = useState(loadedPosts);
 
   function handlePublicationDelete(id: number) {
-    debugger;
     const publications = [...posts];
     const pubIndexInList = publications.findIndex(publication => publication.id === id);
     publications.splice(pubIndexInList, 1);

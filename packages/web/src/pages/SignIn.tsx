@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import styled from "styled-components";
 import Input from "../components/Input";
 import {colors, DarkButton, DarkLinkText, ErrorText, text} from "../common/designSystem";
@@ -43,19 +43,42 @@ const LoginFormContainer = styled.div`
   }
 `
 
-type Props = {
-  sessionExpired?: true;
+type LocationState = {
+  sessionExpired?: boolean;
+  accountCreated?: boolean;
+  auth?: {
+    email: string;
+    password: string;
+  }
 }
 
-function SignIn(props: Props) {
-  const { sessionExpired } = props;
-
+function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitError, setSubmitError] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [buttonLabel, setButtonLabel] = useState('Sign in');
+  const [accountCreated, setAccountCreated] = useState(false);
+  const [sessionExpired, setSessionExpired] = useState(false);
   const history = useHistory();
+
+  console.log(history.location.state);
+
+  useEffect(() => {
+
+    const { state }: { state: any } = history.location;
+    console.log("SignIn -> state", state)
+
+    if (state && state.accountCreated && state.authInfo) {
+      setEmail(state.authInfo.email);
+      setPassword(state.authInfo.password);
+      setAccountCreated(true);
+    }
+
+    if (state && state.sessionExpired) {
+      setSessionExpired(true);
+    }
+  }, [history]); 
 
   const handleEmailChange = (text: string) => {
     setEmail(text);
@@ -122,15 +145,22 @@ function SignIn(props: Props) {
                 null
             }
 
+            <Box width={1/4} ml="auto">
+              <Button variant="primary" onClick={(event) => login(event)} width={1}>{buttonLabel}</Button>
+            </Box>
+
             {
               sessionExpired ?
               <Text color="red" fontSize={14}>Your session expired. Please sign in again.</Text> :
               null
             }
 
-            <Box width={1/4} ml="auto">
-              <Button variant="primary" onClick={(event) => login(event)} width={1}>{buttonLabel}</Button>
-            </Box>
+            {
+              accountCreated ?
+              <Text color="green" fontWeight="bolder" fontSize={14}>Account created! Now you can sign in.</Text> :
+              null
+            }
+
           </form>
         </Box>
       </Flex>
