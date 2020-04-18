@@ -44,14 +44,19 @@ function validateSession(req, res, next) {
          * After basic validation passed through
          * auth headers we validate the informed token
          */
-        const decoded = jwt.verify(token, auth_1.default.appSecret, { ignoreExpiration: false, maxAge: '1 day' });
-        const persistedSession = yield checkIfTokenIsValid(token);
-        if (!persistedSession.valid) {
-            return res.status(401).json({ message: 'User must be logged in', error: 'UNAUTHORIZED' });
+        try {
+            const decoded = jwt.verify(token, auth_1.default.appSecret, { ignoreExpiration: false, maxAge: '1 day' });
+            const persistedSession = yield checkIfTokenIsValid(token);
+            if (!persistedSession.valid) {
+                return res.status(401).json({ message: 'User must be logged in', error: 'UNAUTHORIZED' });
+            }
+            req.user = decoded.user;
+            req.sessionId = persistedSession.id;
+            return next();
         }
-        req.user = decoded.user;
-        req.sessionId = persistedSession.id;
-        return next();
+        catch (err) {
+            return res.status(401).json({ message: 'You session expired', error: 'EXPIRED_SESSION' });
+        }
     });
 }
 /**
