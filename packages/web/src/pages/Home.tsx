@@ -6,6 +6,7 @@ import PublicationsList from "../components/PublicationsList";
 import api from '../common/api';
 import {User} from "../interfaces/interfaces";
 import { Flex } from 'rebass/styled-components';
+import { useHistory } from 'react-router-dom';
 
 function Home() {
   const [newPostContent, setNewPostContent] = useState('');
@@ -13,6 +14,7 @@ function Home() {
   const [posts, setPosts] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [user, setUser] = useState();
+  const history = useHistory();
 
   useEffect(() => {
     const userInStorage = localStorage.getItem('DTALK_USER');
@@ -34,12 +36,22 @@ function Home() {
       setPosts(data);
     } catch (err) {
       console.error('DEBUG:: Error when loading posts -> ', err);
+      const { response: { data } } = err;
+      console.log("loadPosts -> data", data)
+      if (data.error === 'EXPIRED_SESSION') {
+        handleExpiredSession();
+      }
     } finally {
       setLoading(false);
     }
   }
 
-  function handleContentChange(text: string) {
+  const handleExpiredSession = () => {
+    localStorage.removeItem('DTALK_TOKEN');
+    history.push('/sign-in', { sessionExpired: true });
+  }
+
+  const handleContentChange = (text: string) => {
     setNewPostContent(text);
   }
 

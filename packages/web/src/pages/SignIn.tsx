@@ -4,7 +4,7 @@ import Input from "../components/Input";
 import {colors, DarkButton, DarkLinkText, ErrorText, text} from "../common/designSystem";
 import api from '../common/api';
 import { useHistory } from 'react-router-dom';
-import {Box, Button, Flex} from 'rebass/styled-components'
+import {Box, Button, Flex, Text} from 'rebass/styled-components'
 
 const MainContainer = styled.div`
   display: flex;
@@ -43,23 +43,29 @@ const LoginFormContainer = styled.div`
   }
 `
 
-function SignIn() {
+type Props = {
+  sessionExpired?: true;
+}
+
+function SignIn(props: Props) {
+  const { sessionExpired } = props;
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitError, setSubmitError] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-  const [buttonLabel, setButtonLabel] = useState('SignIn');
+  const [buttonLabel, setButtonLabel] = useState('Sign in');
   const history = useHistory();
 
-  function handleEmailChange(text: string) {
+  const handleEmailChange = (text: string) => {
     setEmail(text);
   }
 
-  function handlePasswordChange(text: string) {
+  const handlePasswordChange = (text: string) => {
     setPassword(text);
   }
 
-  async function login(event: any) {
+  const login = async (event: any) => {
     event.preventDefault();
 
     if (!email || !password) {
@@ -88,7 +94,7 @@ function SignIn() {
     }
   }
 
-  function saveInfoInStorage(data: any) {
+  const saveInfoInStorage = (data: any) => {
     const { token, user } = data;
     localStorage.setItem('DTALK_TOKEN', token);
     localStorage.setItem('DTALK_USER', JSON.stringify(user));
@@ -116,10 +122,15 @@ function SignIn() {
                 null
             }
 
+            {
+              sessionExpired ?
+              <Text color="red" fontSize={14}>Your session expired. Please sign in again.</Text> :
+              null
+            }
+
             <Box width={1/4} ml="auto">
               <Button variant="primary" onClick={(event) => login(event)} width={1}>{buttonLabel}</Button>
             </Box>
-
           </form>
         </Box>
       </Flex>

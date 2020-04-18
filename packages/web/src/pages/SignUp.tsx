@@ -112,7 +112,6 @@ function SignUp() {
     checkEmail();
     checkName();
 
-    // debugger;
     if (passwordInvalid || nameInvalid || emailInvalid || !passwordMatch) {
       return;
     } else {
