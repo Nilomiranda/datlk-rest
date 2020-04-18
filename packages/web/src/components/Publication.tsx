@@ -1,158 +1,171 @@
 import React, { useState } from 'react';
-import styled from 'styled-components'
-import {ActionButton, colors, DangerButton, DarkButton, text} from "../common/designSystem";
-import {Post, User} from "../interfaces/interfaces";
+import { Post, User } from '../interfaces/interfaces';
 import { useHistory } from 'react-router-dom';
 import api from '../common/api';
-import {Box, Button, Flex, Text} from 'rebass/styled-components';
+import { Box, Button, Flex, Text } from 'rebass/styled-components';
+import { Textarea } from '@rebass/forms';
+import { toast } from 'react-toastify';
 
-const MainContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 20px 0;
-  background: ${colors.white};
-  //width: 80%;
-  padding: 10px 15px;
-  border-radius: 10px;
-  cursor: pointer;
-  
-  .publication-header {
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .title-wrapper {
-    button {
-      margin-left: 20px;
-    }
-  }
-  
-  .pub-edit-box {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    
-    button {
-      margin: 20px 0;
-    }
-  }
-  
-  textarea {
-    margin: 20px 10px;
-    flex: 1;
-    padding: 10px;
-    font-size: ${text.extraSmall};
-    color: ${colors.green};
-    font-weight: bolder;
-    outline: none;
-    border: 1px solid ${colors.green};
-    box-shadow: 0 10px 10px ${colors.lighterGray};
-    width: 100%;
-    min-height: 70px;
-  }
-  
-  span {
-    margin-bottom: 30px;
-    font-size: ${text.medium};
-    border-bottom: 1px solid ${colors.green}
-  }
-  
-  p {
-    padding: 10px;
-    margin-bottom: 15px;
-  }
-`;
+enum ToastType {
+  SUCCESS = 'SUCCESS',
+  ERROR = 'ERROR',
+}
 
-const Toolbar = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  border-top: 1px solid ${colors.lightGray};
-  padding: 20px 0;
-`
+type Props = {
+  publication: Post;
+  user: User;
+  handleDelete: (id: number) => void;
+};
 
-function Publication ({ publication, user, handleDelete }: { publication: Post, user: User, handleDelete: (id: number) => void }) {
+const Publication = (props: Props) => {
+  const { publication, user, handleDelete } = props;
   const history = useHistory();
   const [isEditing, setIsEditing] = useState(false);
   const [content, setContent] = useState(publication.content);
 
-  function handleCommentButtonClick(event: any) {
-    // event.stopPropagation();
-  }
+  const notification = (msg: string, type?: ToastType) => {
+    if (type === ToastType.SUCCESS) {
+      toast.success(msg);
+    } else if (type === ToastType.ERROR) {
+      toast.error(msg);
+    } else {
+      toast(msg);
+    }
+  };
 
-  function handleEditButtonClick(event: any) {
+  const handleCommentButtonClick = () => {
+    history.push(`publication/${publication.id}`, { commenting: true });
+  };
+
+  const handleEditButtonClick = (event: any) => {
     event.stopPropagation();
     setIsEditing(true);
-  }
+  };
 
-  async function handleDeleteButtonClick() {
+  const handleDeleteButtonClick = async () => {
     try {
       await api(true).delete(`publication/${publication.id}`);
       handleDelete(publication.id);
+      notification('Post deleted', ToastType.SUCCESS);
     } catch (err) {
       console.error('DEBUG:: Error when deleting publication -> ', err);
+      if (err.response) {
+        const {
+          response: { data },
+        } = err;
+        notification(data.message);
+      }
     }
-  }
+  };
 
-  function handlePublicationContentChange(text: string) {
+  const handlePublicationContentChange = (text: string) => {
     console.log(text);
     setContent(text);
-  }
+  };
 
-  async function handleChangesSave() {
+  const handleChangesSave = async () => {
     setIsEditing(false);
     try {
-      const { data } = await api(true).patch(`publication/${publication.id}`, { content });
-      console.log('saved post -> ', data);
+      await api(true).patch(`publication/${publication.id}`, { content });
+      notification('Publication edited', ToastType.SUCCESS);
     } catch (err) {
-      console.error('DEBUG:: Error when saving changes -> ', err);
+      if (err.response) {
+        const {
+          response: { data },
+        } = err;
+        notification(data.message);
+      }
     }
-  }
+  };
+
+  const cancelPostEditing = () => {
+    setIsEditing(false);
+  };
 
   return (
-    <Flex
-      flexDirection="column"
-      bg="white"
-      my={30}
-      p={30}
-      sx={{ borderRadius: 'large' }}
-    >
+    <Flex flexDirection="column" bg="white" my={30} p={30} sx={{ borderRadius: 'large' }}>
       <Flex justifyContent="space-between">
-        <Box width={1/4}>
+        <Box width={1 / 4}>
           <span>{publication.user.name}</span>
-          <Button variant="primaryTransparent" fontSize={14} p={0} mx={10} onClick={() => history.push(`/publication/${publication.id}`)}>See more</Button>
+          <Button
+            variant="primaryTransparent"
+            fontSize={14}
+            p={0}
+            mx={10}
+            onClick={() => history.push(`/publication/${publication.id}`)}
+          >
+            See more
+          </Button>
         </Box>
-        {
-          user.id === publication.user.id ?
-            (
-              <Box width={1/4}>
-                <Button variant="dangerTransparent" fontSize={14} p={0} mx={1} onClick={() => handleDeleteButtonClick()}>Delete post</Button> { '/' }
-                <Button variant="primaryTransparent" fontSize={14} p={0} mx={1} onClick={(event) => handleEditButtonClick(event)}>Edit post</Button>
-              </Box>
-            ) :
-            null
-        }
+        {user.id === publication.user.id ? (
+          <Box width={1 / 4}>
+            <Button
+              variant="dangerTransparent"
+              fontSize={14}
+              p={0}
+              width={1 / 2}
+              onClick={() => handleDeleteButtonClick()}
+            >
+              Delete post
+            </Button>
+            <Button
+              variant="primaryTransparent"
+              fontSize={14}
+              p={0}
+              width={1 / 2}
+              onClick={(event) => handleEditButtonClick(event)}
+            >
+              Edit post
+            </Button>
+          </Box>
+        ) : null}
       </Flex>
-      {
-        isEditing ?
-          <div className="pub-edit-box">
-            <textarea value={content} onChange={event => handlePublicationContentChange(event.target.value)}/>
-            <ActionButton disabled={content.length === 0} onClick={() => handleChangesSave()}>Save changes</ActionButton>
-          </div> :
-          <Text color="black" fontSize={16} my={30}>{content}</Text>
-      }
+      {isEditing ? (
+        <div className="pub-edit-box">
+          <Textarea
+            onChange={(event) => handlePublicationContentChange(event.target.value)}
+            name="Comment"
+            height={100}
+            color="green"
+            my={50}
+            value={content}
+            sx={{ outline: 'transparent', borderWidth: 1 }}
+          />
+          <Button
+            variant="primaryTransparent"
+            fontSize={14}
+            p={0}
+            width={1 / 4}
+            onClick={() => handleChangesSave()}
+            disabled={content.length === 0}
+          >
+            Save changes
+          </Button>
+          <Button
+            variant="dangerTransparent"
+            fontSize={14}
+            p={0}
+            width={1 / 4}
+            onClick={() => cancelPostEditing()}
+            disabled={content.length === 0}
+          >
+            Cancel
+          </Button>
+        </div>
+      ) : (
+        <Text color="black" fontSize={16} my={30}>
+          {content}
+        </Text>
+      )}
       <Flex justifyContent="flex-end" width={1}>
-        <Box width={1/4}>
-          <Button variant="primary" width={1} onClick={event => handleCommentButtonClick(event)}>Comment</Button>
+        <Box width={['50%', '25%']}>
+          <Button variant="primary" onClick={() => handleCommentButtonClick()} width={1}>
+            Comment
+          </Button>
         </Box>
       </Flex>
     </Flex>
-  )
-}
+  );
+};
 
 export default Publication;

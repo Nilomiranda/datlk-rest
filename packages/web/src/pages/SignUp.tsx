@@ -1,49 +1,12 @@
-import React, {useState} from 'react';
-import styled from "styled-components";
-import Input from "../components/Input";
-import {colors, DarkButton, DarkLinkText, text} from "../common/designSystem";
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import api from '../common/api';
-import {Text, Button, Flex, Box} from 'rebass/styled-components';
+import { Text, Button, Flex, Box } from 'rebass/styled-components';
 import { useHistory } from 'react-router-dom';
+import { Input } from '@rebass/forms';
+import { Link } from 'react-router-dom';
 
-const MainContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: ${colors.lighterGreen};
-  height: 100vh;
-`
-
-const LoginFormContainer = styled.div`
-  background: ${colors.white};
-  padding: 40px;
-  min-width: 75%;
-  max-width: 90%;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  
-  h1 {
-    color: ${colors.black};
-    font-size: ${text.extraLarge};
-    margin-bottom: 40px;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 80%;
-  }
-  
-  .submit-btn {
-    align-self: flex-end;
-    margin-top: 20px;
-  }
-`
-
-function SignUp() {
+const SignUp = () => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -138,67 +101,40 @@ function SignUp() {
   }
 
   return (
-    <MainContainer>
-      <Flex flexDirection="column" bg="white" p={40} width={['95%', '85%', '85%', '65%']} sx={{ borderRadius: 'large' }}>
-        <h1>Create an account</h1>
-        <form>
-          <Input
-            type="text"
-            placeholder="name@domain.com"
-            label="Your email*"
-            onChange={handleEmailChange}
-            errorMsg="Email is required"
-            invalid={emailInvalid}
-          />
-          <Input
-            type="text"
-            placeholder="Harry Norman"
-            label="Your name*"
-            onChange={handleNameChange}
-            errorMsg="Name is required"
-            invalid={nameInvalid}
-          />
-          <Input
-            type="password"
-            placeholder="********"
-            label="Your password"
-            invalid={passwordInvalid}
-            errorMsg={passwordErrorMsg}
-            onChange={handlePasswordChange}
-          />
-          <Input
-            type="password"
-            placeholder="********"
-            label="Confirm password"
-            onChange={handleConfirmPasswordChange}
-            errorMsg="Passwords must match"
-            invalid={!passwordMatch}
-          />
+    <Flex flexDirection="column" bg="white" p={40} width={['95%', '85%', '85%', '65%']} sx={{ borderRadius: 'large' }}>
+      <h1>Create an account</h1>
+      <form>
+        <Input type="text" placeholder="name@domain.com" onChange={(event) => handleEmailChange(event.target.value)} />
+        <Input type="text" placeholder="Harry Norman" onChange={(event) => handleNameChange(event.target.value)} />
+        <Input type="password" placeholder="********" onChange={(event) => handlePasswordChange(event.target.value)} />
+        <Input
+          type="password"
+          placeholder="********"
+          onChange={(event) => handleConfirmPasswordChange(event.target.value)}
+        />
 
-          <DarkLinkText to="/sign-in">Already have an account? Sign in</DarkLinkText>
+        <Link to="/sign-in">Already have an account? Sign in</Link>
 
-            <Box width={1/4} ml="auto">
-              <Button variant="primary" onClick={(event) => handleSubmit(event)} width={1}>{buttonLabel}</Button>
-            </Box>
+        <Box width={1 / 4} ml="auto">
+          <Button variant="primary" onClick={(event) => handleSubmit(event)} width={1}>
+            {buttonLabel}
+          </Button>
+        </Box>
 
-          {
-            error && !success ?
-              <Text fontSize={[ 1, 1, 1 ]} fontWeight='medium' color='red' mt={10} textAlign="center">{error}</Text> :
-              null
-          }
+        {error && !success ? (
+          <Text fontSize={[1, 1, 1]} fontWeight="medium" color="red" mt={10} textAlign="center">
+            {error}
+          </Text>
+        ) : null}
 
-          {
-            success ?
-              <Text fontSize={[ 1, 1, 1 ]} fontWeight='medium' color='green' mt={10} textAlign="center">
-                Account successfully created!
-              </Text> :
-              null
-          }
-
-        </form>
-      </Flex>
-    </MainContainer>
-  )
-}
+        {success ? (
+          <Text fontSize={[1, 1, 1]} fontWeight="medium" color="green" mt={10} textAlign="center">
+            Account successfully created!
+          </Text>
+        ) : null}
+      </form>
+    </Flex>
+  );
+};
 
 export default SignUp;

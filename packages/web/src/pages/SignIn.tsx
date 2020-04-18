@@ -1,58 +1,19 @@
-import React, {useState, useEffect, useLayoutEffect} from 'react';
-import styled from "styled-components";
-import Input from "../components/Input";
-import {colors, DarkButton, DarkLinkText, ErrorText, text} from "../common/designSystem";
+import React, { useState, useEffect } from 'react';
 import api from '../common/api';
-import { useHistory } from 'react-router-dom';
-import {Box, Button, Flex, Text} from 'rebass/styled-components'
+import { useHistory, Link } from 'react-router-dom';
+import { Box, Button, Flex, Text, Heading } from 'rebass/styled-components';
+import { Input } from '@rebass/forms';
+import styled from 'styled-components';
+import theme from '../common/theme';
 
-const MainContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: ${colors.lighterGreen};
-  height: 100vh;
-`
+const StyledLink = styled(Link)`
+  color: ${theme.colors.green};
+  font-weight: bolder;
+  font-size: ${theme.fontSizes[1]};
+  text-decoration: none;
+`;
 
-const LoginFormContainer = styled.div`
-  background: ${colors.white};
-  padding: 40px;
-  min-width: 75%;
-  max-width: 90%;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  
-  h1 {
-    color: ${colors.black};
-    font-size: ${text.extraLarge};
-    margin-bottom: 40px;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 80%;
-  }
-  
-  .submit-btn {
-    align-self: flex-end;
-    margin-top: 20px;
-  }
-`
-
-type LocationState = {
-  sessionExpired?: boolean;
-  accountCreated?: boolean;
-  auth?: {
-    email: string;
-    password: string;
-  }
-}
-
-function SignIn() {
+const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitError, setSubmitError] = useState(false);
@@ -62,12 +23,8 @@ function SignIn() {
   const [sessionExpired, setSessionExpired] = useState(false);
   const history = useHistory();
 
-  console.log(history.location.state);
-
   useEffect(() => {
-
     const { state }: { state: any } = history.location;
-    console.log("SignIn -> state", state)
 
     if (state && state.accountCreated && state.authInfo) {
       setEmail(state.authInfo.email);
@@ -78,15 +35,15 @@ function SignIn() {
     if (state && state.sessionExpired) {
       setSessionExpired(true);
     }
-  }, [history]); 
+  }, [history]);
 
   const handleEmailChange = (text: string) => {
     setEmail(text);
-  }
+  };
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
-  }
+  };
 
   const login = async (event: any) => {
     event.preventDefault();
@@ -115,57 +72,87 @@ function SignIn() {
         setButtonLabel('Sign in');
       }
     }
-  }
+  };
 
   const saveInfoInStorage = (data: any) => {
     const { token, user } = data;
     localStorage.setItem('DTALK_TOKEN', token);
     localStorage.setItem('DTALK_USER', JSON.stringify(user));
-  }
+  };
 
   return (
-    <MainContainer>
-      <Flex flexDirection="column" alignItems="flex-start" bg="white" p={40} width={['95%', '85%', '80%', '60%']} sx={{ borderRadius: 'large' }}>
-        <Box width={1}>
-          <h1>Sign in to your account</h1>
-          <form>
-            <Input type="text" placeholder="name@domain.com" label="Your email" onChange={handleEmailChange}/>
-            <Input
-              type="password"
-              placeholder="********"
-              label="Your password"
-              onChange={handlePasswordChange}
-            />
+    <Flex
+      flexDirection="column"
+      alignItems="flex-start"
+      width={['95%', '85%', '80%', '60%']}
+      sx={{ borderRadius: 'large' }}
+      margin="0 auto"
+      height="100vh"
+    >
+      <Flex
+        width={1}
+        flexDirection="column"
+        justifyContent="space-between"
+        margin="auto 0"
+        bg="white"
+        padding={40}
+        sx={{ borderRadius: 'large' }}
+        height="40%"
+      >
+        <Heading fontSize={[3, 4, 5, 5]}>Sign in to your account</Heading>
+        <Flex as="form" flex={1} flexDirection="column" justifyContent="space-around">
+          <Input
+            type="text"
+            placeholder="name@domain.com"
+            padding={10}
+            sx={{
+              border: '1px solid lightGray',
+              borderRadius: '8px',
+              outlineColor: 'green',
+            }}
+            onChange={(event) => handleEmailChange(event.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="********"
+            padding={10}
+            sx={{
+              border: '1px solid lightGray',
+              borderRadius: '8px',
+              outlineColor: 'green',
+            }}
+            onChange={(event) => handlePasswordChange(event.target.value)}
+          />
 
-            <DarkLinkText to="/sign-up">Don't have an account? Create one</DarkLinkText>
+          <StyledLink to="/sign-up">Don't have an account? Create one</StyledLink>
 
-            {
-              submitError ?
-                <ErrorText>{errorMsg}</ErrorText> :
-                null
-            }
+          {submitError ? (
+            <Text color="red" fontSize={14}>
+              {errorMsg}
+            </Text>
+          ) : null}
 
-            <Box width={1/4} ml="auto">
-              <Button variant="primary" onClick={(event) => login(event)} width={1}>{buttonLabel}</Button>
-            </Box>
+          <Box width={1 / 4} ml="auto">
+            <Button variant="primary" onClick={(event) => login(event)} width={1}>
+              {buttonLabel}
+            </Button>
+          </Box>
 
-            {
-              sessionExpired ?
-              <Text color="red" fontSize={14}>Your session expired. Please sign in again.</Text> :
-              null
-            }
+          {sessionExpired ? (
+            <Text color="red" fontSize={14}>
+              Your session expired. Please sign in again.
+            </Text>
+          ) : null}
 
-            {
-              accountCreated ?
-              <Text color="green" fontWeight="bolder" fontSize={14}>Account created! Now you can sign in.</Text> :
-              null
-            }
-
-          </form>
-        </Box>
+          {accountCreated ? (
+            <Text color="green" fontWeight="bolder" fontSize={14}>
+              Account created! Now you can sign in.
+            </Text>
+          ) : null}
+        </Flex>
       </Flex>
-    </MainContainer>
-  )
-}
+    </Flex>
+  );
+};
 
 export default SignIn;

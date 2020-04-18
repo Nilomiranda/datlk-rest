@@ -1,74 +1,51 @@
-import React, {useEffect, useState} from 'react';
-import styled from 'styled-components'
+import React, { useEffect, useState, useRef } from 'react';
 import { format } from 'date-fns';
-import {colors, DarkButton, text} from "../common/designSystem";
-import {Post} from "../interfaces/interfaces";
-import CommentsList from "./CommentsList";
+import { Post } from '../interfaces/interfaces';
+import CommentsList from './CommentsList';
 import api from '../common/api';
-import {useParams} from "react-router-dom";
+import { useParams, useHistory } from 'react-router-dom';
+import { Textarea } from '@rebass/forms';
+import { Flex, Text, Box, Button } from 'rebass/styled-components';
 
-const MainContainer = styled.main`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
- justify-content: center;
- padding: 20px 20%;
- 
- .post-metadata {
-  border-bottom: 1px solid ${colors.lightGreen};
-  padding: 20px 0;
- }
- 
- .post-author, .post-date {
-    margin: 15px 0;
- }
- 
- .post-content {
-    margin-top: 20px;
- }
- 
-`
+type Props = {
+  publication: Post;
+  reloadPublication: () => void;
+};
 
-const Toolbar = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
-  margin-top: 30px;
-`
-
-const CommentBox = styled.div<{ visible: boolean }>`
-  display: ${({ visible }) => visible ?  'block' : 'none'};
-  
-  textarea {
-    margin: 20px 10px;
-    flex: 1;
-    padding: 10px;
-    font-size: ${text.extraSmall};
-    color: ${colors.green};
-    font-weight: bolder;
-    outline: none;
-    border: 1px solid ${colors.green};
-    box-shadow: 0 10px 10px ${colors.lighterGray};
-    width: 100%;
-    min-height: 70px;
-  }
-`
-
-function PublicationDetail({ publication, reloadPublication }: { publication: Post, reloadPublication: () => void }) {
+const PublicationDetail = (props: Props) => {
+  const { publication, reloadPublication } = props;
+  const history = useHistory();
   const { id }: { id?: string | undefined } = useParams();
   const [commentBoxVisible, setCommentBoxVisible] = useState(false);
   const [commentContent, setCommentContent] = useState('');
   const [buttonLabel, setButtonLabel] = useState('Comment');
   const [submittingComment, setSubmittinComment] = useState(false);
   const [updatedPublication, setUpdatedPublication] = useState();
+  const commentInputRef = useRef(null);
 
-  function handleValueChange(event: any) {
+  useEffect(() => {
+    const {
+      location: { state },
+    }: { location: { state: any } } = history;
+
+    if (state?.commenting) {
+      handleCommentClickButton();
+    }
+
+    console.log('PublicationDetail -> commentInputRef', commentInputRef);
+    // @ts-ignore
+    commentInputRef?.current.focus();
+  }, []);
+
+  const handleValueChange = (event: any) => {
     console.log(event);
-    const { target: { value: text } } = event;
+    const {
+      target: { value: text },
+    } = event;
     setCommentContent(text);
-  }
+  };
 
-  function handleCommentClickButton() {
+  const handleCommentClickButton = () => {
     if (commentBoxVisible) {
       // submit comment
       submitNewComment();
@@ -76,14 +53,13 @@ function PublicationDetail({ publication, reloadPublication }: { publication: Po
       setCommentBoxVisible(true);
       setButtonLabel('Publish comment');
     }
-  }
+  };
 
-  async function submitNewComment() {
+  const submitNewComment = async () => {
     try {
       setSubmittinComment(true);
       setButtonLabel('Submitting...');
       const { data: submittedComment } = await api(true).post(`comments/${id}`, { content: commentContent });
-      console.log('submittedComment -> ', submittedComment);
 
       if (submittedComment) {
         await reloadPublication();
@@ -94,32 +70,49 @@ function PublicationDetail({ publication, reloadPublication }: { publication: Po
       setSubmittinComment(false);
       setButtonLabel('Submit');
     }
-  }
+  };
 
   return (
-    <MainContainer>
-      <div className="post-metadata">
-        <p className="post-author">{publication.user.name} on</p>
-        <p className="post-date">{format(new Date(publication.createdAt), 'MMM dd, yyyy')} says:</p>
-      </div>
+    <Flex flexDirection="column" width={['95%', '80%', '70%', '60%']}>
+      <Flex
+        width={1}
+        flexDirection="column"
+        justifyContent="spaceBetween"
+        py={40}
+        sx={{ borderBottom: '1px solid green' }}
+      >
+        <Text color="gray" fontWeight="bolder" fontSize={14} my={15}>
+          {publication.user.name} on
+        </Text>
+        <Text color="black" fontSize={12} fontWeight="medium">
+          {format(new Date(publication.createdAt), 'MMM dd, yyyy')} says:
+        </Text>
+      </Flex>
 
-      <div className="post-content">
+      <Box marginTop={60}>
         <p>{publication.content}</p>
-      </div>
+      </Box>
 
-      <CommentBox visible={commentBoxVisible}>
-        <textarea onChange={event => handleValueChange(event)} />
+      <Textarea
+        onChange={(event) => handleValueChange(event)}
+        name="Comment"
+        height={100}
+        color="green"
+        my={50}
+        sx={{ outline: 'transparent', borderWidth: 1 }}
+        display={commentBoxVisible ? 'block' : 'none'}
+        ref={commentInputRef}
+      />
 
-      </CommentBox>
+      <Flex width={1} my={60} justifyContent="flex-end">
+        <Button variant="primary" onClick={() => handleCommentClickButton()}>
+          {buttonLabel}
+        </Button>
+      </Flex>
 
-      <Toolbar>
-        <DarkButton onClick={() => handleCommentClickButton()}>{buttonLabel}</DarkButton>
-      </Toolbar>
-
-      <CommentsList comments={publication.comments}/>
-
-    </MainContainer>
-  )
-}
+      <CommentsList comments={publication.comments} />
+    </Flex>
+  );
+};
 
 export default PublicationDetail;

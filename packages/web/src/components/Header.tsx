@@ -1,40 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
-import {colors, text} from "../common/designSystem";
 import api from '../common/api';
 import { useHistory } from 'react-router-dom';
+import { Heading, Flex, Button } from 'rebass/styled-components';
 
-const MainContainer = styled.nav`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  padding: 20px 40px;
-  background: ${colors.white};
-  box-shadow: 0 1px 0px ${colors.gray};
-  
-  button {
-    font-size: ${text.medium};
-    color: ${colors.green};
-    font-weight: bolder;
-    background: transparent;
-    border: none;
-    
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  }
-  
-  h1 {
-    color: ${colors.black};
-    font-size: ${text.extraLarge};
-    margin-left: 38%;
-    margin: 0 auto;
-  }
-`
-
-function Header() {
+const Header = () => {
   const history = useHistory();
 
   async function signOut() {
@@ -52,11 +21,15 @@ function Header() {
   }
 
   return (
-    <MainContainer>
-      <button onClick={() => signOut()}>Sign out</button>
-      <h1>Publications</h1>
-    </MainContainer>
-  )
-}
+    <Flex justifyContent="space-between" width={1} bg="white" padding={20}>
+      <Button variant="primaryTransparent" onClick={() => signOut()}>
+        Sign out
+      </Button>
+      <Heading color="black" fontSize={[5, 6, 6]} width="90%" textAlign="center">
+        Publications
+      </Heading>
+    </Flex>
+  );
+};
 
 export default Header;
