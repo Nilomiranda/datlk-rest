@@ -8,7 +8,7 @@ export interface NewPublicationProps {
   submitting: boolean;
 }
 
-function NewPublication(props: NewPublicationProps) {
+const NewPublication = (props: NewPublicationProps) => {
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
   const { onChange, handleSubmit, submitting } = props;
@@ -49,6 +49,6 @@ function NewPublication(props: NewPublicationProps) {
       </Box>
     </Flex>
   );
-}
+};
 
 export default NewPublication;

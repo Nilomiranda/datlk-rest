@@ -4,7 +4,7 @@ import {getRepository} from "typeorm";
 import {Session, SessionStatus} from "../entities/Session";
 
 // @ts-ignore
-async function validateSession(req, res, next) {
+const validateSession = async (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
@@ -12,8 +12,7 @@ async function validateSession(req, res, next) {
   }
 
   const [tokenType, token] = authorization.split(' ');
-  console.log(tokenType);
-  console.log(token);
+
   // Only Bearer token is accepted
   if (!tokenType && tokenType !== 'Bearer') {
     return res.status(401).json({ message: 'User must be logged in', error: 'UNAUTHORIZED' });
@@ -50,7 +49,7 @@ async function validateSession(req, res, next) {
  * E.g. -> A user logged out of our application before his token expires
  * so he won't be able to use it again
  */
-async function checkIfTokenIsValid(token: string): Promise<{ valid: boolean, id?: number }> {
+const checkIfTokenIsValid = async (token: string): Promise<{ valid: boolean, id?: number }> => {
   const sessionRepo = getRepository(Session);
 
   const session = await sessionRepo.findOne({ where: { token } });

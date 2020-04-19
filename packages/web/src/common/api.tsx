@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-function api(tokenRequired = false) {
+const api = (tokenRequired = false) => {
   let API_URL;
 
   if (process.env.NODE_ENV === 'development') {
@@ -16,7 +16,7 @@ function api(tokenRequired = false) {
       'content-type': 'application/json',
       // 'Access-Control-Allow-Origin': 'https://https://dtalk-rest.now.sh',
       // 'Allow-Access-Control-Origin': 'https://https://dtalk-rest.now.sh',
-    }
+    },
   });
 
   if (tokenRequired) {
@@ -29,6 +29,6 @@ function api(tokenRequired = false) {
   }
 
   return api;
-}
+};
 
 export default api;

@@ -12,7 +12,7 @@ import pg from 'pg';
 dotenv.config();
 const port = process.env.PORT;
 
-async function startServer() {
+const startServer = async () => {
   const corsOptions = {
     origin: 'https://dtalk-rest.now.sh',
     optionsSuccessStatus: 200,

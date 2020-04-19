@@ -28,22 +28,20 @@ const routes_1 = __importDefault(require("./routes"));
 const typeorm_1 = require("typeorm");
 dotenv_1.default.config();
 const port = process.env.PORT;
-function startServer() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const corsOptions = {
-            origin: 'https://dtalk-rest.now.sh',
-            optionsSuccessStatus: 200,
-        };
-        // te
-        yield typeorm_1.createConnection();
-        const app = express_1.default();
-        app.use(cors_1.default());
-        app.use(bodyParser.json());
-        app.use('/api', routes_1.default);
-        app.listen(port, () => {
-            console.log(`Server is running like 🔥🔥🔥 on port ${port}`);
-        });
+const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
+    const corsOptions = {
+        origin: 'https://dtalk-rest.now.sh',
+        optionsSuccessStatus: 200,
+    };
+    // te
+    yield typeorm_1.createConnection();
+    const app = express_1.default();
+    app.use(cors_1.default());
+    app.use(bodyParser.json());
+    app.use('/api', routes_1.default);
+    app.listen(port, () => {
+        console.log(`Server is running like 🔥🔥🔥 on port ${port}`);
     });
-}
+});
 startServer();
 //# sourceMappingURL=index.js.map

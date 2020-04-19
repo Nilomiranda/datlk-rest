@@ -24,60 +24,54 @@ const auth_1 = __importDefault(require("../config/auth"));
 const typeorm_1 = require("typeorm");
 const Session_1 = require("../entities/Session");
 // @ts-ignore
-function validateSession(req, res, next) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const { authorization } = req.headers;
-        if (!authorization) {
+const validateSession = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { authorization } = req.headers;
+    if (!authorization) {
+        return res.status(401).json({ message: 'User must be logged in', error: 'UNAUTHORIZED' });
+    }
+    const [tokenType, token] = authorization.split(' ');
+    // Only Bearer token is accepted
+    if (!tokenType && tokenType !== 'Bearer') {
+        return res.status(401).json({ message: 'User must be logged in', error: 'UNAUTHORIZED' });
+    }
+    if (!token) {
+        return res.status(401).json({ message: 'User must be logged in', error: 'UNAUTHORIZED' });
+    }
+    /**
+     * After basic validation passed through
+     * auth headers we validate the informed token
+     */
+    try {
+        const decoded = jwt.verify(token, auth_1.default.appSecret, { ignoreExpiration: false, maxAge: '1 day' });
+        const persistedSession = yield checkIfTokenIsValid(token);
+        if (!persistedSession.valid) {
             return res.status(401).json({ message: 'User must be logged in', error: 'UNAUTHORIZED' });
         }
-        const [tokenType, token] = authorization.split(' ');
-        console.log(tokenType);
-        console.log(token);
-        // Only Bearer token is accepted
-        if (!tokenType && tokenType !== 'Bearer') {
-            return res.status(401).json({ message: 'User must be logged in', error: 'UNAUTHORIZED' });
-        }
-        if (!token) {
-            return res.status(401).json({ message: 'User must be logged in', error: 'UNAUTHORIZED' });
-        }
-        /**
-         * After basic validation passed through
-         * auth headers we validate the informed token
-         */
-        try {
-            const decoded = jwt.verify(token, auth_1.default.appSecret, { ignoreExpiration: false, maxAge: '1 day' });
-            const persistedSession = yield checkIfTokenIsValid(token);
-            if (!persistedSession.valid) {
-                return res.status(401).json({ message: 'User must be logged in', error: 'UNAUTHORIZED' });
-            }
-            req.user = decoded.user;
-            req.sessionId = persistedSession.id;
-            return next();
-        }
-        catch (err) {
-            return res.status(401).json({ message: 'You session expired', error: 'EXPIRED_SESSION' });
-        }
-    });
-}
+        req.user = decoded.user;
+        req.sessionId = persistedSession.id;
+        return next();
+    }
+    catch (err) {
+        return res.status(401).json({ message: 'You session expired', error: 'EXPIRED_SESSION' });
+    }
+});
 /**
  * This will make sure user is not using a token which is not valid
  * E.g. -> A user logged out of our application before his token expires
  * so he won't be able to use it again
  */
-function checkIfTokenIsValid(token) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const sessionRepo = typeorm_1.getRepository(Session_1.Session);
-        const session = yield sessionRepo.findOne({ where: { token } });
-        if (!session) {
-            return { valid: false };
-        }
-        if (session.status === Session_1.SessionStatus.INVALID) {
-            return { valid: false };
-        }
-        else {
-            return { valid: true, id: session.id };
-        }
-    });
-}
+const checkIfTokenIsValid = (token) => __awaiter(void 0, void 0, void 0, function* () {
+    const sessionRepo = typeorm_1.getRepository(Session_1.Session);
+    const session = yield sessionRepo.findOne({ where: { token } });
+    if (!session) {
+        return { valid: false };
+    }
+    if (session.status === Session_1.SessionStatus.INVALID) {
+        return { valid: false };
+    }
+    else {
+        return { valid: true, id: session.id };
+    }
+});
 exports.default = validateSession;
 //# sourceMappingURL=authMiddleware.js.map

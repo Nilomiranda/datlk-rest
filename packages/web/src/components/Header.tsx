@@ -6,7 +6,7 @@ import { Heading, Flex, Button } from 'rebass/styled-components';
 const Header = () => {
   const history = useHistory();
 
-  async function signOut() {
+  const signOut = async () => {
     try {
       await api(true).delete('session');
       deleteTokenFromStorage();
@@ -14,11 +14,11 @@ const Header = () => {
     } catch (err) {
       console.error('DEBUG:: Error when signin out -> ', err);
     }
-  }
+  };
 
-  function deleteTokenFromStorage() {
+  const deleteTokenFromStorage = () => {
     localStorage.removeItem('DTALK_TOKEN');
-  }
+  };
 
   return (
     <Flex justifyContent="space-between" width={1} bg="white" padding={20}>
