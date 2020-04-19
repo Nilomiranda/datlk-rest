@@ -20,10 +20,7 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordInvalid, setPasswordInvalid] = useState(false);
-  const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
-  const [passwordMatch, setPasswordMatch] = useState(true);
   const [emailInvalid, setEmailInvalid] = useState(false);
   const [nameInvalid, setNameInvalid] = useState(false);
   const [buttonLabel, setButtonLabel] = useState('Create account');
@@ -33,19 +30,9 @@ const SignUp = () => {
   const validatePassword = () => {
     if (password.length < 8) {
       setPasswordInvalid(true);
-      setPasswordErrorMsg('Password must have 8 characters');
     } else {
       setPasswordInvalid(false);
     }
-  };
-
-  const checkIfPasswordsMatch = () => {
-    setPasswordMatch(password === confirmPassword);
-    // if (password !== confirmPassword) {
-    //   setPasswordMatch(false);
-    // } else {
-    //   setPasswordMatch(true);
-    // }
   };
 
   const checkName = () => {
@@ -58,6 +45,16 @@ const SignUp = () => {
 
   const checkEmail = () => {
     if (!email || email.length === 0) {
+      return setEmailInvalid(true);
+    } else {
+      setEmailInvalid(false);
+    }
+
+    const rgx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    const isEmailValid = email.match(rgx);
+
+    if (!isEmailValid) {
       setEmailInvalid(true);
     } else {
       setEmailInvalid(false);
@@ -130,6 +127,8 @@ const SignUp = () => {
             placeholder="name@domain.com"
             padding={10}
             label="Email"
+            errorMsg="Invalid email"
+            invalid={emailInvalid}
             required
             sx={{
               border: '1px solid lightGray',
@@ -137,6 +136,7 @@ const SignUp = () => {
               outlineColor: 'green',
             }}
             onChange={(event: any) => handleEmailChange(event.target.value)}
+            onBlur={() => checkEmail()}
           />
           <Input
             type="text"
