@@ -39,7 +39,7 @@ export default {
     const pubId: number = req.params.id;
 
     try {
-      const publication = await pubRepo.findOne({ where: { id: pubId }, relations: ['user', 'comments', 'comments.user'] });
+      const publication = await pubRepo.findOne({ where: { id: pubId }, relations: ['user', 'comments', 'comments.user'], });
       if (!publication) {
         return res.status(404).json({ message: 'Publication not found', error: 'PUBLICATION_NOT_FOUND' });
       }

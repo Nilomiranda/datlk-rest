@@ -36,7 +36,7 @@ export default {
     const { publicationId } = req.params;
 
     try {
-      const comments = await commentRepo.find({ where: { publication: { id: publicationId } }, relations: ['user'] });
+      const comments = await commentRepo.find({ where: { publication: { id: publicationId } }, relations: ['user'], order: { createdAt: 'DESC' } });
 
       return res.status(200).json(comments);
     } catch (err) {
