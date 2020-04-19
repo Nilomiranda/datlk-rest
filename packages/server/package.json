@@ -7,7 +7,6 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "prestart": "tsc -p tsconfig.json",
     "start": "rm -rf node_modules && npm install && node ./dist/index.js",
     "start:dev": "tsc-watch -p tsconfig.json --onSuccess \"node .\"",
     "start:prod": "node dist/index.js",
@@ -21,10 +20,7 @@
     "jsonwebtoken": "^8.5.1",
     "ts-node": "^8.8.2",
     "dotenv": "^8.2.0",
-    "typeorm": "^0.2.24",
-    "pg": "^8.0.2",
-    "tslint": "^6.1.1",
-    "typescript": "^3.8.3"
+    "typeorm": "^0.2.24"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
@@ -36,6 +32,9 @@
     "@types/pg": "^7.14.3",
     "nodemon": "^2.0.3",
     "reflect-metadata": "^0.1.13",
-    "tsc-watch": "^4.2.3"
+    "tsc-watch": "^4.2.3",
+    "pg": "^8.0.2",
+    "tslint": "^6.1.1",
+    "typescript": "^3.8.3"
   }
 }
