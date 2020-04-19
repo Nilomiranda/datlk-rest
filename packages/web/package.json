@@ -3,9 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
+    "hooks": {}
   },
   "dependencies": {
     "@rebass/forms": "^4.0.6",

@@ -3,9 +3,18 @@ import { format } from 'date-fns';
 import { Post } from '../interfaces/interfaces';
 import CommentsList from './CommentsList';
 import api from '../common/api';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import { Textarea } from '@rebass/forms';
 import { Flex, Text, Box, Button } from 'rebass/styled-components';
+import styled from 'styled-components';
+import theme from '../common/theme';
+
+const StyledLink = styled(Link)`
+  color: ${theme.colors.green};
+  font-weight: bolder;
+  font-size: ${theme.fontSizes[1]};
+  text-decoration: none;
+`;
 
 type Props = {
   publication: Post;
@@ -73,7 +82,7 @@ const PublicationDetail = (props: Props) => {
   };
 
   return (
-    <Flex flexDirection="column" width={['95%', '80%', '70%', '60%']}>
+    <Flex flexDirection="column" width={['95%', '80%', '70%', '60%']} bg="white" margin="0 auto" p={40}>
       <Flex
         width={1}
         flexDirection="column"
@@ -81,7 +90,8 @@ const PublicationDetail = (props: Props) => {
         py={40}
         sx={{ borderBottom: '1px solid green' }}
       >
-        <Text color="gray" fontWeight="bolder" fontSize={14} my={15}>
+        <StyledLink to="/home">↩ Back to feed</StyledLink>
+        <Text color="gray" fontWeight="bolder" fontSize={14} my={15} marginTop="40px">
           {publication.user.name} on
         </Text>
         <Text color="black" fontSize={12} fontWeight="medium">

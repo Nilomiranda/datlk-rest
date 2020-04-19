@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import api from '../common/api';
 import { useHistory, Link } from 'react-router-dom';
 import { Box, Button, Flex, Text, Heading } from 'rebass/styled-components';
-import { Input } from '@rebass/forms';
 import styled from 'styled-components';
 import theme from '../common/theme';
+import Input from '../components/Input';
 
 const StyledLink = styled(Link)`
   color: ${theme.colors.green};
@@ -97,7 +97,6 @@ const SignIn = () => {
         bg="white"
         padding={40}
         sx={{ borderRadius: 'large' }}
-        height="40%"
       >
         <Heading fontSize={[3, 4, 5, 5]}>Sign in to your account</Heading>
         <Flex as="form" flex={1} flexDirection="column" justifyContent="space-around">
@@ -105,22 +104,12 @@ const SignIn = () => {
             type="text"
             placeholder="name@domain.com"
             padding={10}
-            sx={{
-              border: '1px solid lightGray',
-              borderRadius: '8px',
-              outlineColor: 'green',
-            }}
             onChange={(event) => handleEmailChange(event.target.value)}
           />
           <Input
             type="password"
             placeholder="********"
             padding={10}
-            sx={{
-              border: '1px solid lightGray',
-              borderRadius: '8px',
-              outlineColor: 'green',
-            }}
             onChange={(event) => handlePasswordChange(event.target.value)}
           />
 
@@ -132,7 +121,7 @@ const SignIn = () => {
             </Text>
           ) : null}
 
-          <Box width={1 / 4} ml="auto">
+          <Box width={['50%', '25%']} ml="auto" marginTop="40px">
             <Button variant="primary" onClick={(event) => login(event)} width={1}>
               {buttonLabel}
             </Button>
