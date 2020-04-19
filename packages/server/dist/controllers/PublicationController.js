@@ -10,18 +10,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const publication_entity_1 = require("../entities/publication.entity");
+const Publication_1 = require("../entities/Publication");
 exports.default = {
     createPublication(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const pubRepo = typeorm_1.getRepository(publication_entity_1.Publication);
+            const pubRepo = typeorm_1.getRepository(Publication_1.Publication);
             const { content } = req.body;
             const { user } = req;
             if (!content) {
                 return res.status(400).json({ message: 'Content is missing', error: 'EMPTY_CONTENT' });
             }
             try {
-                const publication = yield pubRepo.save(new publication_entity_1.Publication({ content, user }));
+                const publication = yield pubRepo.save(new Publication_1.Publication({ content, user }));
                 return res.status(200).json(publication);
             }
             catch (err) {
@@ -31,7 +31,7 @@ exports.default = {
     },
     getPublications(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const pubRepo = typeorm_1.getRepository(publication_entity_1.Publication);
+            const pubRepo = typeorm_1.getRepository(Publication_1.Publication);
             try {
                 const publications = yield pubRepo.find({ relations: ['user', 'comments', 'comments.user'], order: { id: 'DESC' } });
                 return res.status(200).json(publications);
@@ -43,7 +43,7 @@ exports.default = {
     },
     getOnePublication(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const pubRepo = typeorm_1.getRepository(publication_entity_1.Publication);
+            const pubRepo = typeorm_1.getRepository(Publication_1.Publication);
             const pubId = req.params.id;
             try {
                 const publication = yield pubRepo.findOne({ where: { id: pubId }, relations: ['user', 'comments', 'comments.user'] });
@@ -59,7 +59,7 @@ exports.default = {
     },
     updatePublication(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const pubRepo = typeorm_1.getRepository(publication_entity_1.Publication);
+            const pubRepo = typeorm_1.getRepository(Publication_1.Publication);
             const { content } = req.body;
             const { user } = req;
             const pubId = req.params.id;
@@ -89,7 +89,7 @@ exports.default = {
     },
     deletePublication(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const pubRepo = typeorm_1.getRepository(publication_entity_1.Publication);
+            const pubRepo = typeorm_1.getRepository(Publication_1.Publication);
             const pubId = req.params.id;
             const { user } = req;
             try {

@@ -22,7 +22,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jwt = __importStar(require("jsonwebtoken"));
 const auth_1 = __importDefault(require("../config/auth"));
 const typeorm_1 = require("typeorm");
-const session_entity_1 = require("../entities/session.entity");
+const Session_1 = require("../entities/Session");
 // @ts-ignore
 function validateSession(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -66,12 +66,12 @@ function validateSession(req, res, next) {
  */
 function checkIfTokenIsValid(token) {
     return __awaiter(this, void 0, void 0, function* () {
-        const sessionRepo = typeorm_1.getRepository(session_entity_1.Session);
+        const sessionRepo = typeorm_1.getRepository(Session_1.Session);
         const session = yield sessionRepo.findOne({ where: { token } });
         if (!session) {
             return { valid: false };
         }
-        if (session.status === session_entity_1.SessionStatus.INVALID) {
+        if (session.status === Session_1.SessionStatus.INVALID) {
             return { valid: false };
         }
         else {

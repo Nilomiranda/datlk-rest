@@ -1,8 +1,8 @@
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import {getRepository} from "typeorm";
-import {User} from "../entities/user.entity";
-import {Session, SessionStatus} from "../entities/session.entity";
+import {User} from "../entities/User";
+import {Session, SessionStatus} from "../entities/Session";
 import auth from '../config/auth';
 
 export default {

@@ -22,14 +22,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt = __importStar(require("bcrypt"));
 const jwt = __importStar(require("jsonwebtoken"));
 const typeorm_1 = require("typeorm");
-const user_entity_1 = require("../entities/user.entity");
-const session_entity_1 = require("../entities/session.entity");
+const User_1 = require("../entities/User");
+const Session_1 = require("../entities/Session");
 const auth_1 = __importDefault(require("../config/auth"));
 exports.default = {
     createSession(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const userRepo = typeorm_1.getRepository(user_entity_1.User);
-            const sessionRepo = typeorm_1.getRepository(session_entity_1.Session);
+            const userRepo = typeorm_1.getRepository(User_1.User);
+            const sessionRepo = typeorm_1.getRepository(Session_1.Session);
             const { email, password } = req.body;
             if (!email) {
                 return res.status(400).json({ message: 'An email must be informed', error: 'MISSING_EMAIL' });
@@ -53,7 +53,7 @@ exports.default = {
             // generating jwt
             const token = jwt.sign({ user }, auth_1.default.appSecret, { expiresIn: '1 day' });
             try {
-                const createdSession = yield sessionRepo.save(new session_entity_1.Session({ user, status: session_entity_1.SessionStatus.VALID, token }));
+                const createdSession = yield sessionRepo.save(new Session_1.Session({ user, status: Session_1.SessionStatus.VALID, token }));
                 return res.status(200).json(createdSession);
             }
             catch (err) {
@@ -63,7 +63,7 @@ exports.default = {
     },
     destroySession(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sessionRepo = typeorm_1.getRepository(session_entity_1.Session);
+            const sessionRepo = typeorm_1.getRepository(Session_1.Session);
             // const { email } = req.body;
             const { sessionId } = req;
             const session = yield sessionRepo.findOne({ where: { id: sessionId } });

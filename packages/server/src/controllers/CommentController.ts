@@ -1,7 +1,7 @@
 import { getRepository } from "typeorm";
-import { Publication } from "../entities/publication.entity";
-import { Comment } from "../entities/comment.entity";
-import {User} from "../entities/user.entity";
+import { Publication } from "../entities/Publication";
+import { Comment } from "../entities/Comment";
+import {User} from "../entities/User";
 
 export default {
   async createComment(req: any, res: any) {

@@ -7,14 +7,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const base_entity_1 = require("./base.entity");
+const Base_1 = require("./Base");
 const user_entity_1 = require("./user.entity");
 var SessionStatus;
 (function (SessionStatus) {
     SessionStatus["VALID"] = "VALID";
     SessionStatus["INVALID"] = "INVALID";
 })(SessionStatus = exports.SessionStatus || (exports.SessionStatus = {}));
-let Session = class Session extends base_entity_1.Base {
+let Session = class Session extends Base_1.Base {
 };
 __decorate([
     typeorm_1.Column({ type: 'enum', nullable: false, default: SessionStatus.VALID, enum: SessionStatus })

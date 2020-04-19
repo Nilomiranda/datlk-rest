@@ -1,7 +1,7 @@
 import {Column, Entity, OneToMany} from "typeorm";
-import {Base} from "./base.entity";
-import {Session} from "./session.entity";
-import {Publication} from "./publication.entity";
+import {Base} from "./Base";
+import {Session} from "./Session";
+import {Publication} from "./Publication";
 
 @Entity()
 export class User extends Base<User> {

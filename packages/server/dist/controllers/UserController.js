@@ -17,13 +17,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const user_entity_1 = require("../entities/user.entity");
+const User_1 = require("../entities/User");
 const bcrypt = __importStar(require("bcrypt"));
 exports.default = {
     createNewUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { email, password, name } = req.body;
-            const userRepo = typeorm_1.getRepository(user_entity_1.User);
+            const userRepo = typeorm_1.getRepository(User_1.User);
             if (!email) {
                 return res.status(400).json({ message: 'An email must be informed', error: 'MISSING_EMAIL' });
             }
@@ -43,7 +43,7 @@ exports.default = {
             }
             const hashedPassword = yield bcrypt.hash(password, 8);
             try {
-                const createdUser = yield userRepo.save(new user_entity_1.User({ email, password: hashedPassword, name }));
+                const createdUser = yield userRepo.save(new User_1.User({ email, password: hashedPassword, name }));
                 /**
                  * we delete password prop here to avoid
                  * this field to be exposed in the request response
@@ -60,7 +60,7 @@ exports.default = {
     },
     getUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const userRepo = typeorm_1.getRepository(user_entity_1.User);
+            const userRepo = typeorm_1.getRepository(User_1.User);
             const users = yield userRepo.find();
             res.json(users);
         });

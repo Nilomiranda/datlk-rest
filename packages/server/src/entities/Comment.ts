@@ -1,7 +1,7 @@
-import { Base } from "./base.entity";
+import { Base } from "./Base";
 import {Column, Entity, ManyToOne} from "typeorm";
-import { User } from "./user.entity";
-import { Publication } from "./publication.entity";
+import { User } from "./User";
+import { Publication } from "./Publication";
 
 @Entity()
 export class Comment extends Base<Comment> {

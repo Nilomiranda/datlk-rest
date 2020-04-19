@@ -1,6 +1,6 @@
 import {Column, Entity, ManyToOne} from "typeorm";
-import {Base} from "./base.entity";
-import {User} from "./user.entity";
+import {Base} from "./Base";
+import {User} from "./User";
 
 export enum SessionStatus {
   VALID = 'VALID',

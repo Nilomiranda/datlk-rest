@@ -1,5 +1,5 @@
 import {getRepository} from "typeorm";
-import {User} from "../entities/user.entity";
+import {User} from "../entities/User";
 import * as bcrypt from 'bcrypt';
 
 

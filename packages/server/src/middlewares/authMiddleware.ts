@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import auth from '../config/auth';
 import {getRepository} from "typeorm";
-import {Session, SessionStatus} from "../entities/session.entity";
+import {Session, SessionStatus} from "../entities/Session";
 
 // @ts-ignore
 async function validateSession(req, res, next) {

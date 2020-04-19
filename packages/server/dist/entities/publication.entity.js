@@ -6,11 +6,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const base_entity_1 = require("./base.entity");
+const Base_1 = require("./Base");
 const typeorm_1 = require("typeorm");
 const user_entity_1 = require("./user.entity");
-const comment_entity_1 = require("./comment.entity");
-let Publication = class Publication extends base_entity_1.Base {
+const Comment_1 = require("./Comment");
+let Publication = class Publication extends Base_1.Base {
 };
 __decorate([
     typeorm_1.Column({ type: 'varchar', length: '400', nullable: false })
@@ -19,7 +19,7 @@ __decorate([
     typeorm_1.ManyToOne(type => user_entity_1.User, user => user.publications, { nullable: false })
 ], Publication.prototype, "user", void 0);
 __decorate([
-    typeorm_1.OneToMany(type => comment_entity_1.Comment, comment => comment.publication)
+    typeorm_1.OneToMany(type => Comment_1.Comment, comment => comment.publication)
 ], Publication.prototype, "comments", void 0);
 Publication = __decorate([
     typeorm_1.Entity()

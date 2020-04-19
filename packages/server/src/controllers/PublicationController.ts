@@ -1,6 +1,6 @@
 import {getRepository} from "typeorm";
-import {Publication} from "../entities/publication.entity";
-import {User} from "../entities/user.entity";
+import {Publication} from "../entities/Publication";
+import {User} from "../entities/User";
 
 
 export default {

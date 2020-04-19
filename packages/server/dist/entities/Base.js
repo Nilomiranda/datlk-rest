@@ -6,23 +6,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Base_1 = require("./Base");
 const typeorm_1 = require("typeorm");
-const user_entity_1 = require("./user.entity");
-const publication_entity_1 = require("./publication.entity");
-let Comment = class Comment extends Base_1.Base {
+let Base = class Base {
+    constructor(obj) {
+        Object.assign(this, obj);
+    }
 };
 __decorate([
-    typeorm_1.Column({ type: 'varchar', length: 400, nullable: false })
-], Comment.prototype, "content", void 0);
+    typeorm_1.PrimaryGeneratedColumn()
+], Base.prototype, "id", void 0);
 __decorate([
-    typeorm_1.ManyToOne(type => user_entity_1.User, { nullable: false })
-], Comment.prototype, "user", void 0);
+    typeorm_1.CreateDateColumn()
+], Base.prototype, "createdAt", void 0);
 __decorate([
-    typeorm_1.ManyToOne(type => publication_entity_1.Publication, publication => publication.comments, { nullable: false, onDelete: 'CASCADE' })
-], Comment.prototype, "publication", void 0);
-Comment = __decorate([
+    typeorm_1.UpdateDateColumn()
+], Base.prototype, "updatedAt", void 0);
+Base = __decorate([
     typeorm_1.Entity()
-], Comment);
-exports.Comment = Comment;
-//# sourceMappingURL=comment.entity.js.map
+], Base);
+exports.Base = Base;
+//# sourceMappingURL=Base.js.map

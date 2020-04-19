@@ -8,21 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const Base_1 = require("./Base");
 const typeorm_1 = require("typeorm");
-const user_entity_1 = require("./user.entity");
-const publication_entity_1 = require("./publication.entity");
-let Comment = class Comment extends Base_1.Base {
+const User_1 = require("./User");
+const Comment_1 = require("./Comment");
+let Publication = class Publication extends Base_1.Base {
 };
 __decorate([
-    typeorm_1.Column({ type: 'varchar', length: 400, nullable: false })
-], Comment.prototype, "content", void 0);
+    typeorm_1.Column({ type: 'varchar', length: '400', nullable: false })
+], Publication.prototype, "content", void 0);
 __decorate([
-    typeorm_1.ManyToOne(type => user_entity_1.User, { nullable: false })
-], Comment.prototype, "user", void 0);
+    typeorm_1.ManyToOne(type => User_1.User, user => user.publications, { nullable: false })
+], Publication.prototype, "user", void 0);
 __decorate([
-    typeorm_1.ManyToOne(type => publication_entity_1.Publication, publication => publication.comments, { nullable: false, onDelete: 'CASCADE' })
-], Comment.prototype, "publication", void 0);
-Comment = __decorate([
+    typeorm_1.OneToMany(type => Comment_1.Comment, comment => comment.publication)
+], Publication.prototype, "comments", void 0);
+Publication = __decorate([
     typeorm_1.Entity()
-], Comment);
-exports.Comment = Comment;
-//# sourceMappingURL=comment.entity.js.map
+], Publication);
+exports.Publication = Publication;
+//# sourceMappingURL=Publication.js.map

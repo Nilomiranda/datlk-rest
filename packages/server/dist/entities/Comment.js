@@ -6,29 +6,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const typeorm_1 = require("typeorm");
 const Base_1 = require("./Base");
-const Session_1 = require("./Session");
+const typeorm_1 = require("typeorm");
+const User_1 = require("./User");
 const Publication_1 = require("./Publication");
-let User = class User extends Base_1.Base {
+let Comment = class Comment extends Base_1.Base {
 };
 __decorate([
-    typeorm_1.Column({ type: 'varchar', nullable: false })
-], User.prototype, "name", void 0);
+    typeorm_1.Column({ type: 'varchar', length: 400, nullable: false })
+], Comment.prototype, "content", void 0);
 __decorate([
-    typeorm_1.Column({ type: 'varchar', nullable: false })
-], User.prototype, "email", void 0);
+    typeorm_1.ManyToOne(type => User_1.User, { nullable: false })
+], Comment.prototype, "user", void 0);
 __decorate([
-    typeorm_1.Column({ type: 'varchar', nullable: false, select: false })
-], User.prototype, "password", void 0);
-__decorate([
-    typeorm_1.OneToMany(type => Session_1.Session, session => session.user)
-], User.prototype, "sessions", void 0);
-__decorate([
-    typeorm_1.OneToMany(type => Publication_1.Publication, publication => publication.user)
-], User.prototype, "publications", void 0);
-User = __decorate([
+    typeorm_1.ManyToOne(type => Publication_1.Publication, publication => publication.comments, { nullable: false, onDelete: 'CASCADE' })
+], Comment.prototype, "publication", void 0);
+Comment = __decorate([
     typeorm_1.Entity()
-], User);
-exports.User = User;
-//# sourceMappingURL=user.entity.js.map
+], Comment);
+exports.Comment = Comment;
+//# sourceMappingURL=Comment.js.map

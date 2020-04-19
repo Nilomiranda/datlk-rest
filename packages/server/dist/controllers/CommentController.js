@@ -10,13 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const publication_entity_1 = require("../entities/publication.entity");
-const comment_entity_1 = require("../entities/comment.entity");
+const Publication_1 = require("../entities/Publication");
+const Comment_1 = require("../entities/Comment");
 exports.default = {
     createComment(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const pubRepo = typeorm_1.getRepository(publication_entity_1.Publication);
-            const commentRepo = typeorm_1.getRepository(comment_entity_1.Comment);
+            const pubRepo = typeorm_1.getRepository(Publication_1.Publication);
+            const commentRepo = typeorm_1.getRepository(Comment_1.Comment);
             const { content } = req.body;
             const { user } = req;
             const { publicationId } = req.params;
@@ -28,7 +28,7 @@ exports.default = {
                 if (!publication) {
                     return res.status(404).json({ message: 'Publicaton not found', error: 'PUBLICATION_NOT_FOUND' });
                 }
-                const comment = yield commentRepo.save(new comment_entity_1.Comment({ content, user, publication }));
+                const comment = yield commentRepo.save(new Comment_1.Comment({ content, user, publication }));
                 return res.status(200).json(comment);
             }
             catch (err) {
@@ -38,7 +38,7 @@ exports.default = {
     },
     getComments(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const commentRepo = typeorm_1.getRepository(comment_entity_1.Comment);
+            const commentRepo = typeorm_1.getRepository(Comment_1.Comment);
             const { publicationId } = req.params;
             try {
                 const comments = yield commentRepo.find({ where: { publication: { id: publicationId } }, relations: ['user'] });
@@ -51,7 +51,7 @@ exports.default = {
     },
     updateComment(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const commentRepo = typeorm_1.getRepository(comment_entity_1.Comment);
+            const commentRepo = typeorm_1.getRepository(Comment_1.Comment);
             const { content } = req.body;
             const { user } = req;
             const { id: commentId } = req.params;
@@ -78,7 +78,7 @@ exports.default = {
     },
     destroyComment(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const commentRepo = typeorm_1.getRepository(comment_entity_1.Comment);
+            const commentRepo = typeorm_1.getRepository(Comment_1.Comment);
             const { user } = req;
             const { id: commentId } = req.params;
             try {
