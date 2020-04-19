@@ -25,16 +25,16 @@ and React, Typescript, styled-component on the front-end.
 
 ### (FRONT-END)
 
-- [ ] User can create account
-- [ ] User can sign in
-- [ ] User can sign out
+- [X] User can create account
+- [X] User can sign in
+- [X] User can sign out
 
-- [ ] User can create a new post
-- [ ] User can edit his post
-- [ ] User can delete his post
+- [X] User can create a new post
+- [X] User can edit his post
+- [X] User can delete his post
 
-- [ ] User can list posts
+- [X] User can list posts
 
-- [ ] User can open a post
-- [ ] User can comment in other posts
-- [ ] User can list comments from a post
+- [X] User can open a post
+- [X] User can comment in other posts
+- [X] User can list comments from a post
