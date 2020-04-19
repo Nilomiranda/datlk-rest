@@ -25,7 +25,7 @@ const typeorm_1 = require("typeorm");
 const user_entity_1 = require("../entities/user.entity");
 const session_entity_1 = require("../entities/session.entity");
 const auth_1 = __importDefault(require("../config/auth"));
-class SessionController {
+exports.default = {
     createSession(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const userRepo = typeorm_1.getRepository(user_entity_1.User);
@@ -60,7 +60,7 @@ class SessionController {
                 return res.status(500).json({ message: 'Internal server error', error: err.message });
             }
         });
-    }
+    },
     destroySession(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const sessionRepo = typeorm_1.getRepository(session_entity_1.Session);
@@ -80,6 +80,5 @@ class SessionController {
             }
         });
     }
-}
-exports.default = new SessionController();
+};
 //# sourceMappingURL=SessionController.js.map

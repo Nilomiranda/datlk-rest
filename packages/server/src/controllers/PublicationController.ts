@@ -2,7 +2,8 @@ import {getRepository} from "typeorm";
 import {Publication} from "../entities/publication.entity";
 import {User} from "../entities/user.entity";
 
-class PublicationController {
+
+export default {
   async createPublication(req: any, res: any) {
     const pubRepo = getRepository(Publication);
 
@@ -20,7 +21,7 @@ class PublicationController {
     } catch (err) {
       return res.status(500).json({ message: 'Internal server error', error: err.message });
     }
-  }
+  },
 
   async getPublications(req: any, res: any) {
     const pubRepo = getRepository(Publication);
@@ -31,7 +32,7 @@ class PublicationController {
     } catch (err) {
       return res.status(500).json({ message: 'Internal server error', error: err.message });
     }
-  }
+  },
 
   async getOnePublication(req: any, res: any) {
     const pubRepo = getRepository(Publication);
@@ -47,7 +48,7 @@ class PublicationController {
     } catch (err) {
       return res.status(500).json({ message: 'Internal server error', error: err.message });
     }
-  }
+  },
 
   async updatePublication(req: any, res: any) {
     const pubRepo = getRepository(Publication);
@@ -82,7 +83,7 @@ class PublicationController {
     } catch (err) {
       return res.status(500).json({ message: 'Internal server error', error: err.message });
     }
-  }
+  },
 
   async deletePublication(req: any, res: any) {
     const pubRepo = getRepository(Publication);
@@ -108,5 +109,3 @@ class PublicationController {
     }
   }
 }
-
-export default new PublicationController();

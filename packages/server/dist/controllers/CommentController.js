@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const publication_entity_1 = require("../entities/publication.entity");
 const comment_entity_1 = require("../entities/comment.entity");
-class CommentsController {
+exports.default = {
     createComment(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const pubRepo = typeorm_1.getRepository(publication_entity_1.Publication);
@@ -35,7 +35,7 @@ class CommentsController {
                 return res.status(500).json({ message: 'Internal server error', error: err.message });
             }
         });
-    }
+    },
     getComments(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const commentRepo = typeorm_1.getRepository(comment_entity_1.Comment);
@@ -48,7 +48,7 @@ class CommentsController {
                 return res.status(500).json({ message: 'Internal server error', error: err.message });
             }
         });
-    }
+    },
     updateComment(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const commentRepo = typeorm_1.getRepository(comment_entity_1.Comment);
@@ -75,7 +75,7 @@ class CommentsController {
                 return res.status(500).json({ message: 'Internal server error', error: err.message });
             }
         });
-    }
+    },
     destroyComment(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const commentRepo = typeorm_1.getRepository(comment_entity_1.Comment);
@@ -97,6 +97,5 @@ class CommentsController {
             }
         });
     }
-}
-exports.default = new CommentsController();
+};
 //# sourceMappingURL=CommentController.js.map

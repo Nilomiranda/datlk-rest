@@ -3,7 +3,7 @@ import { Publication } from "../entities/publication.entity";
 import { Comment } from "../entities/comment.entity";
 import {User} from "../entities/user.entity";
 
-class CommentsController {
+export default {
   async createComment(req: any, res: any) {
     const pubRepo = getRepository(Publication);
     const commentRepo = getRepository(Comment);
@@ -29,7 +29,7 @@ class CommentsController {
     } catch (err) {
       return res.status(500).json({ message: 'Internal server error', error: err.message });
     }
-  }
+  },
 
   async getComments(req: any, res: any) {
     const commentRepo = getRepository(Comment);
@@ -42,7 +42,7 @@ class CommentsController {
     } catch (err) {
       return res.status(500).json({ message: 'Internal server error', error: err.message });
     }
-  }
+  },
 
   async updateComment(req: any, res: any) {
     const commentRepo = getRepository(Comment);
@@ -76,7 +76,7 @@ class CommentsController {
     } catch (err) {
       return res.status(500).json({ message: 'Internal server error', error: err.message });
     }
-  }
+  },
 
   async destroyComment(req: any, res: any) {
     const commentRepo = getRepository(Comment);
@@ -102,5 +102,3 @@ class CommentsController {
     }
   }
 }
-
-export default new CommentsController();

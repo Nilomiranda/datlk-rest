@@ -5,7 +5,7 @@ import {User} from "../entities/user.entity";
 import {Session, SessionStatus} from "../entities/session.entity";
 import auth from '../config/auth';
 
-class SessionController {
+export default {
   async createSession(req: any, res: any) {
     const userRepo = getRepository(User);
     const sessionRepo = getRepository(Session);
@@ -48,7 +48,7 @@ class SessionController {
     } catch (err) {
       return res.status(500).json({ message: 'Internal server error', error: err.message });
     }
-  }
+  },
 
   async destroySession(req: any, res: any) {
     const sessionRepo = getRepository(Session);
@@ -70,6 +70,4 @@ class SessionController {
       return res.status(500).json({ message: 'Internal server error', error: err.message });
     }
   }
-}
-
-export default new SessionController();
+};

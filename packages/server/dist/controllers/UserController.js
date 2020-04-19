@@ -19,7 +19,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const user_entity_1 = require("../entities/user.entity");
 const bcrypt = __importStar(require("bcrypt"));
-class UserController {
+exports.default = {
     createNewUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { email, password, name } = req.body;
@@ -57,7 +57,7 @@ class UserController {
                 return res.status(500).json({ message: 'Server error', error: err.message });
             }
         });
-    }
+    },
     getUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const userRepo = typeorm_1.getRepository(user_entity_1.User);
@@ -65,6 +65,5 @@ class UserController {
             res.json(users);
         });
     }
-}
-exports.default = new UserController();
+};
 //# sourceMappingURL=UserController.js.map

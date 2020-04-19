@@ -2,7 +2,8 @@ import {getRepository} from "typeorm";
 import {User} from "../entities/user.entity";
 import * as bcrypt from 'bcrypt';
 
-class UserController {
+
+export default {
   async createNewUser(req: any, res: any) {
     const { email, password, name } = req.body;
     const userRepo = getRepository(User);
@@ -45,7 +46,7 @@ class UserController {
     } catch (err) {
       return res.status(500).json({ message: 'Server error', error: err.message });
     }
-  }
+  },
 
   async getUsers(req: any, res: any) {
     const userRepo = getRepository(User);
@@ -53,5 +54,3 @@ class UserController {
     res.json(users);
   }
 }
-
-export default new UserController();
