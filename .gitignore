@@ -5,6 +5,6 @@ now.json
 packages/server/ormconfig.prod.json
 .env
 ormconfig.json
-.ds_store
+.DS_Store
 .idea
 dist/
