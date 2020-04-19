@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "prestart": "tsc -p tsconfig.json",
     "start": "rm -rf node_modules && npm install && node ./dist/index.js",
     "start:dev": "tsc-watch -p tsconfig.json --onSuccess \"node .\"",
     "start:prod": "node dist/index.js",

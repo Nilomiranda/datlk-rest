@@ -7,3 +7,4 @@ packages/server/ormconfig.prod.json
 ormconfig.json
 .ds_store
 .idea
+dist/
